@@ -17,9 +17,9 @@
 #ifndef ZNC_EXECSOCK_H
 #define ZNC_EXECSOCK_H
 
-#include <znc/zncconfig.h>
-#include <znc/Socket.h>
 #include <signal.h>
+#include <znc/Socket.h>
+#include <znc/zncconfig.h>
 
 //! @author imaginos@imaginos.net
 class CExecSock : public CZNCSock {

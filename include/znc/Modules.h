@@ -17,17 +17,17 @@
 #ifndef ZNC_MODULES_H
 #define ZNC_MODULES_H
 
-#include <znc/zncconfig.h>
-#include <znc/WebModules.h>
-#include <znc/Utils.h>
-#include <znc/Threads.h>
-#include <znc/Message.h>
-#include <znc/main.h>
-#include <znc/Translation.h>
-#include <functional>
-#include <set>
-#include <queue>
 #include <sys/time.h>
+#include <znc/Message.h>
+#include <znc/Threads.h>
+#include <znc/Translation.h>
+#include <znc/Utils.h>
+#include <znc/WebModules.h>
+#include <znc/main.h>
+#include <znc/zncconfig.h>
+#include <functional>
+#include <queue>
+#include <set>
 
 // Forward Declarations
 class CAuthBase;
@@ -469,7 +469,8 @@ class CModule {
     virtual bool OnBoot();
 
     /** Modules which can only be used with an active user session have to return true here.
-     *  @return false for modules that can do stuff for non-logged in web users as well.
+     *  @return false for modules that can do stuff for non-logged in web users
+     * as well.
      */
     virtual bool WebRequiresLogin() { return true; }
     /** Return true if this module should only be usable for admins on the web.
@@ -483,22 +484,26 @@ class CModule {
     virtual CString GetWebPath();
     virtual CString GetWebFilesPath();
     /** For WebMods: Called before the list of registered SubPages will be checked.
-     *  Important: If you return true, you need to take care of calling WebSock.Close!
-     *  This allows for stuff like returning non-templated data, long-polling and other fun.
+     *  Important: If you return true, you need to take care of calling
+     * WebSock.Close! This allows for stuff like returning non-templated data,
+     * long-polling and other fun.
      *  @param WebSock The active request.
      *  @param sPageName The name of the page that has been requested.
-     *  @return true if you handled the page request or false if the name is to be checked
-     *          against the list of registered SubPages and their permission settings.
+     *  @return true if you handled the page request or false if the name is to
+     * be checked against the list of registered SubPages and their permission
+     * settings.
      */
     virtual bool OnWebPreRequest(CWebSock& WebSock, const CString& sPageName);
     /** If OnWebPreRequest returned false, and the RequiresAdmin/IsAdmin check has been passed,
-     *  this method will be called with the page name. It will also be called for pages that
-     *  have NOT been specifically registered with AddSubPage.
+     *  this method will be called with the page name. It will also be called
+     * for pages that have NOT been specifically registered with AddSubPage.
      *  @param WebSock The active request.
      *  @param sPageName The name of the page that has been requested.
-     *  @param Tmpl The active template. You can add variables, loops and stuff to it.
-     *  @return You MUST return true if you want the template to be evaluated and sent to the browser.
-     *          Return false if you called Redirect() or PrintErrorPage(). If you didn't, a 404 page will be sent.
+     *  @param Tmpl The active template. You can add variables, loops and stuff
+     * to it.
+     *  @return You MUST return true if you want the template to be evaluated
+     * and sent to the browser. Return false if you called Redirect() or
+     * PrintErrorPage(). If you didn't, a 404 page will be sent.
      */
     virtual bool OnWebRequest(CWebSock& WebSock, const CString& sPageName,
                               CTemplate& Tmpl);
@@ -507,7 +512,8 @@ class CModule {
      *  @param sPageName The name of the page that has been requested.
      *  @return You MUST return true if the CSRF token is valid.
      */
-    virtual bool ValidateWebRequestCSRFCheck(CWebSock& WebSock, const CString& sPageName);
+    virtual bool ValidateWebRequestCSRFCheck(CWebSock& WebSock,
+                                             const CString& sPageName);
     /** Registers a sub page for the sidebar.
      *  @param spSubPage The SubPage instance.
      */
@@ -526,9 +532,11 @@ class CModule {
      *  Name of used .tmpl file (if any) is up to caller.
      *  @param WebSock Socket for web connection, don't do bad things with it.
      *  @param sPageName Describes the place where web stuff is embedded to.
-     *  @param Tmpl Template. Depending on context, you can do various stuff with it.
-     *  @return If you don't need to embed web stuff to the specified place, just return false.
-     *          Exact meaning of return value is up to caller, and depends on context.
+     *  @param Tmpl Template. Depending on context, you can do various stuff
+     * with it.
+     *  @return If you don't need to embed web stuff to the specified place,
+     * just return false. Exact meaning of return value is up to caller, and
+     * depends on context.
      */
     virtual bool OnEmbeddedWebRequest(CWebSock& WebSock,
                                       const CString& sPageName,
@@ -572,7 +580,8 @@ class CModule {
     virtual EModRet OnBroadcast(CString& sMessage);
 
     /** This module hook is called when a user mode on a channel changes.
-     *  @param pOpNick The nick who sent the mode change, or nullptr if set by server.
+     *  @param pOpNick The nick who sent the mode change, or nullptr if set by
+     * server.
      *  @param Nick The nick whose channel mode changes.
      *  @param Channel The channel on which the user mode is changed.
      *  @param uMode The mode character that is changed, e.g. '@' for op.
@@ -609,7 +618,8 @@ class CModule {
     virtual void OnDevoice(const CNick& OpNick, const CNick& Nick,
                            CChan& Channel, bool bNoChange);
     /** Called on an individual channel mode change.
-     *  @param pOpNick The nick who changes the channel mode, or nullptr if set by server.
+     *  @param pOpNick The nick who changes the channel mode, or nullptr if set
+     * by server.
      *  @param Channel The channel whose mode is changed.
      *  @param uMode The mode character that is changed.
      *  @param sArg The argument to the mode character, if any.
@@ -622,7 +632,8 @@ class CModule {
                         const CString& sArg, bool bAdded, bool bNoChange);
     /** Called on any channel mode change. This is called before the more
      *  detailed mode hooks like e.g. OnOp() and OnMode().
-     *  @param pOpNick The nick who changes the channel mode, or nullptr if set by server.
+     *  @param pOpNick The nick who changes the channel mode, or nullptr if set
+     * by server.
      *  @param Channel The channel whose mode is changed.
      *  @param sModes The raw mode change, e.g. "+s-io".
      *  @param sArgs All arguments to the mode change from sModes.
@@ -634,7 +645,8 @@ class CModule {
 
     /** Called on any raw IRC line received from the <em>IRC server</em>.
      *  @param sLine The line read from the server.
-     *  @note The line does not include message tags. Use OnRawMessage() to access them.
+     *  @note The line does not include message tags. Use OnRawMessage() to
+     * access them.
      *  @return See CModule::EModRet.
      */
     virtual EModRet OnRaw(CString& sLine);
@@ -800,7 +812,8 @@ class CModule {
 
     /** This module hook is called when a client sends a raw traffic line to ZNC.
      *  @param sLine The raw traffic line sent.
-     *  @note The line does not include message tags. Use OnUserRawMessage() to access them.
+     *  @note The line does not include message tags. Use OnUserRawMessage() to
+     * access them.
      *  @return See CModule::EModRet.
      */
     virtual EModRet OnUserRaw(CString& sLine);
@@ -1029,7 +1042,8 @@ class CModule {
     /** Called immediately before ZNC sends a raw traffic line to a client.
      *  @since 1.7.0
      *  @param Message The message being sent to the client.
-     *  @warning Calling PutUser() from within this hook leads to infinite recursion.
+     *  @warning Calling PutUser() from within this hook leads to infinite
+     * recursion.
      *  @return See CModule::EModRet.
      */
     virtual EModRet OnSendToClientMessage(CMessage& Message);
@@ -1039,7 +1053,8 @@ class CModule {
     /** Called immediately before ZNC sends a raw traffic line to the IRC server.
      *  @since 1.7.0
      *  @param Message The message being sent to the IRC server.
-     *  @warning Calling PutIRC() from within this hook leads to infinite recursion.
+     *  @warning Calling PutIRC() from within this hook leads to infinite
+     * recursion.
      *  @return See CModule::EModRet.
      */
     virtual EModRet OnSendToIRCMessage(CMessage& Message);
@@ -1134,7 +1149,7 @@ class CModule {
         return m_sSockets.end();
     }
     virtual void ListSockets();
-// !Socket stuff
+    // !Socket stuff
 
 #ifdef HAVE_PTHREAD
     // Job stuff
@@ -1282,8 +1297,10 @@ class CModule {
     /** Called only to check if your module supports turning on/off named capability.
      *  @param pClient The client which wants to enable/disable a capability.
      *  @param sCap name of capability.
-     *  @param bState On or off, depending on which case is interesting for client.
-     *  @return true if your module supports this capability in the specified state.
+     *  @param bState On or off, depending on which case is interesting for
+     * client.
+     *  @return true if your module supports this capability in the specified
+     * state.
      */
     virtual bool IsClientCapSupported(CClient* pClient, const CString& sCap,
                                       bool bState);

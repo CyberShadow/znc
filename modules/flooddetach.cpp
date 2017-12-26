@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include <time.h>
 #include <znc/Chan.h>
 #include <znc/IRCNetwork.h>
-#include <time.h>
 
 using std::map;
 

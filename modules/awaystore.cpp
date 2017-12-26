@@ -29,15 +29,15 @@
 
 #define REQUIRESSL
 
-#include <znc/main.h>
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
-#include <znc/FileUtils.h>
-#include <znc/Modules.h>
 #include <znc/Chan.h>
+#include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
+#include <znc/Modules.h>
+#include <znc/User.h>
+#include <znc/main.h>
 
-using std::vector;
 using std::map;
+using std::vector;
 
 #define CRYPT_VERIFICATION_TOKEN "::__:AWAY:__::"
 
@@ -241,9 +241,10 @@ class CAway : public CModule {
                                       &CAway::EnableTimerCommand));
         AddCommand("DisableTimer", static_cast<CModCommand::ModCmdFunc>(
                                        &CAway::DisableTimerCommand));
-        AddCommand("SetTimer", static_cast<CModCommand::ModCmdFunc>(
-                                   &CAway::SetTimerCommand),
-                   "<secs>");
+        AddCommand(
+            "SetTimer",
+            static_cast<CModCommand::ModCmdFunc>(&CAway::SetTimerCommand),
+            "<secs>");
         AddCommand("Timer",
                    static_cast<CModCommand::ModCmdFunc>(&CAway::TimerCommand));
     }

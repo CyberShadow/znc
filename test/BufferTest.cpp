@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include <znc/Buffer.h>
 #include <znc/znc.h>
 
-using ::testing::SizeIs;
 using ::testing::ContainerEq;
+using ::testing::SizeIs;
 
 class BufferTest : public ::testing::Test {
   protected:

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-#include <znc/Client.h>
 #include <znc/Chan.h>
-#include <znc/IRCSock.h>
-#include <znc/User.h>
+#include <znc/Client.h>
 #include <znc/IRCNetwork.h>
+#include <znc/IRCSock.h>
 #include <znc/Query.h>
+#include <znc/User.h>
 #include <znc/ZNCDebug.h>
 
-using std::set;
 using std::map;
+using std::set;
 using std::vector;
 
 #define CALLMOD(MOD, CLIENT, USER, NETWORK, FUNC)                             \
@@ -91,19 +91,20 @@ void CClient::SendRequiredPasswordNotice() {
     PutClient(":irc.znc.in 464 " + GetNick() + " :Password required");
     if (CDebug::Debug()) {
         PutClient(
-            ":irc.znc.in NOTICE " + GetNick() + " :*** "
+            ":irc.znc.in NOTICE " + GetNick() +
+            " :*** "
             "ZNC is presently running in DEBUG mode. Sensitive data during "
             "your current session may be exposed to the host.");
     }
-    PutClient(
-        ":irc.znc.in NOTICE " + GetNick() + " :*** "
-        "You need to send your password. "
-        "Configure your client to send a server password.");
-    PutClient(
-        ":irc.znc.in NOTICE " + GetNick() + " :*** "
-        "To connect now, you can use /quote PASS <username>:<password>, "
-        "or /quote PASS <username>/<network>:<password> to connect to a "
-        "specific network.");
+    PutClient(":irc.znc.in NOTICE " + GetNick() +
+              " :*** "
+              "You need to send your password. "
+              "Configure your client to send a server password.");
+    PutClient(":irc.znc.in NOTICE " + GetNick() +
+              " :*** "
+              "To connect now, you can use /quote PASS <username>:<password>, "
+              "or /quote PASS <username>/<network>:<password> to connect to a "
+              "specific network.");
 }
 
 void CClient::ReadLine(const CString& sData) {
@@ -112,8 +113,8 @@ void CClient::ReadLine(const CString& sData) {
 
     sLine.TrimRight("\n\r");
 
-    DEBUG("(" << GetFullName() << ") CLI -> ZNC ["
-        << CDebug::Filter(sLine) << "]");
+    DEBUG("(" << GetFullName() << ") CLI -> ZNC [" << CDebug::Filter(sLine)
+              << "]");
 
     MCString mssTags;
     if (sLine.StartsWith("@")) {
@@ -368,7 +369,8 @@ void CAuthBase::RefuseLogin(const CString& sReason) {
     // login. Use sReason because there are other reasons than "wrong
     // password" for a login to be rejected (e.g. fail2ban).
     if (pUser) {
-        pUser->PutStatusNotice("A client from [" + GetRemoteIP() + "] attempted "
+        pUser->PutStatusNotice("A client from [" + GetRemoteIP() +
+                               "] attempted "
                                "to login as you, but was rejected [" +
                                sReason + "].");
     }
@@ -593,8 +595,8 @@ bool CClient::PutClient(const CMessage& Message) {
                       &bReturn);
     if (bReturn) return false;
 
-    DEBUG("(" << GetFullName() << ") ZNC -> CLI ["
-        << CDebug::Filter(sCopy) << "]");
+    DEBUG("(" << GetFullName() << ") ZNC -> CLI [" << CDebug::Filter(sCopy)
+              << "]");
     Write(sCopy + "\r\n");
     return true;
 }
@@ -620,8 +622,8 @@ void CClient::PutModNotice(const CString& sModule, const CString& sLine) {
     DEBUG("(" << GetFullName()
               << ") ZNC -> CLI [:" + m_pUser->GetStatusPrefix() +
                      ((sModule.empty()) ? "status" : sModule) +
-                     "!znc@znc.in NOTICE " << GetNick() << " :" << sLine
-              << "]");
+                     "!znc@znc.in NOTICE "
+              << GetNick() << " :" << sLine << "]");
     Write(":" + m_pUser->GetStatusPrefix() +
           ((sModule.empty()) ? "status" : sModule) + "!znc@znc.in NOTICE " +
           GetNick() + " :" + sLine + "\r\n");
@@ -635,8 +637,8 @@ void CClient::PutModule(const CString& sModule, const CString& sLine) {
     DEBUG("(" << GetFullName()
               << ") ZNC -> CLI [:" + m_pUser->GetStatusPrefix() +
                      ((sModule.empty()) ? "status" : sModule) +
-                     "!znc@znc.in PRIVMSG " << GetNick() << " :" << sLine
-              << "]");
+                     "!znc@znc.in PRIVMSG "
+              << GetNick() << " :" << sLine << "]");
 
     VCString vsLines;
     sLine.Split("\n", vsLines);
@@ -909,8 +911,8 @@ void CClient::EchoMessage(const CMessage& Message) {
 
 set<CChan*> CClient::MatchChans(const CString& sPatterns) const {
     VCString vsPatterns;
-    sPatterns.Replace_n(",", " ")
-        .Split(" ", vsPatterns, false, "", "", true, true);
+    sPatterns.Replace_n(",", " ").Split(" ", vsPatterns, false, "", "", true,
+                                        true);
 
     set<CChan*> sChans;
     for (const CString& sPattern : vsPatterns) {

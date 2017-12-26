@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <znc/Modules.h>
 #include <znc/IRCNetwork.h>
+#include <znc/Modules.h>
 
 using std::set;
 
@@ -70,12 +70,11 @@ class CBlockMotd : public CModule {
         return CONTINUE;
     }
 
-    void OnIRCDisconnected() override {
-        StopTemporarilyAcceptingMotd();
-    }
+    void OnIRCDisconnected() override { StopTemporarilyAcceptingMotd(); }
 
     bool ShouldTemporarilyAcceptMotd() const {
-        return m_sTemporaryAcceptedMotdSocks.count(GetNetwork()->GetIRCSock()) > 0;
+        return m_sTemporaryAcceptedMotdSocks.count(GetNetwork()->GetIRCSock()) >
+               0;
     }
 
     void TemporarilyAcceptMotd() {
@@ -91,7 +90,7 @@ class CBlockMotd : public CModule {
     }
 
   private:
-    set<CIRCSock *> m_sTemporaryAcceptedMotdSocks;
+    set<CIRCSock*> m_sTemporaryAcceptedMotdSocks;
 };
 
 template <>

@@ -25,10 +25,10 @@
 #define REQUIRESSL
 
 #include <znc/Chan.h>
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
 #include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
 #include <znc/Query.h>
+#include <znc/User.h>
 
 using std::set;
 using std::vector;

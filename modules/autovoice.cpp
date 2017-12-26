@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+#include <znc/Chan.h>
 #include <znc/IRCNetwork.h>
 #include <znc/Modules.h>
-#include <znc/Chan.h>
 
 using std::map;
 using std::set;

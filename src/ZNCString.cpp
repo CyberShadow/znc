@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#include <znc/ZNCString.h>
 #include <znc/FileUtils.h>
-#include <znc/Utils.h>
 #include <znc/MD5.h>
 #include <znc/SHA256.h>
+#include <znc/Utils.h>
+#include <znc/ZNCString.h>
 #include <sstream>
 
 using std::stringstream;
@@ -159,8 +159,8 @@ bool CString::WildCmp(const CString& sWild, const CString& sString,
     const CString& sStr = (cs == CaseSensitive ? sString : sString.AsLower());
 
     // Written by Jack Handy - jakkhandy@hotmail.com
-    const char* wild = sWld.c_str(), *CString = sStr.c_str();
-    const char* cp = nullptr, *mp = nullptr;
+    const char *wild = sWld.c_str(), *CString = sStr.c_str();
+    const char *cp = nullptr, *mp = nullptr;
 
     while ((*CString) && (*wild != '*')) {
         if ((*wild != *CString) && (*wild != '?')) {
@@ -1007,7 +1007,7 @@ bool CString::Base64Encode(CString& sRet, unsigned int uWrap) const {
     sRet.clear();
     size_t len = size();
     const unsigned char* input = (const unsigned char*)c_str();
-    unsigned char* output, *p;
+    unsigned char *output, *p;
     size_t i = 0, mod = len % 3, toalloc;
     toalloc = (len / 3) * 4 + (3 - mod) % 3 + 1 + 8;
 

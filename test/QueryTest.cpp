@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "IRCTest.h"
+#include <gtest/gtest.h>
 #include <znc/Query.h>
+#include "IRCTest.h"
 
-using ::testing::SizeIs;
 using ::testing::ElementsAre;
 using ::testing::MatchesRegex;
+using ::testing::SizeIs;
 
 class QueryTest : public ::testing::Test {
   protected:

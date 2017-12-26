@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "IRCTest.h"
+#include <gtest/gtest.h>
 #include <algorithm>
+#include "IRCTest.h"
 
-using testing::ElementsAre;
 using testing::ContainerEq;
+using testing::ElementsAre;
 using testing::InSequence;
 using testing::Invoke;
 using testing::IsEmpty;

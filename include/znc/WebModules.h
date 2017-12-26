@@ -17,11 +17,11 @@
 #ifndef ZNC_WEBMODULES_H
 #define ZNC_WEBMODULES_H
 
-#include <znc/zncconfig.h>
-#include <znc/Template.h>
 #include <znc/HTTPSock.h>
-#include <znc/Utils.h>
+#include <znc/Template.h>
 #include <znc/Translation.h>
+#include <znc/Utils.h>
+#include <znc/zncconfig.h>
 
 class CAuthBase;
 class CUser;
@@ -97,9 +97,7 @@ class CWebSubPage {
     enum { F_ADMIN = 1 };
 
     void SetName(const CString& s) { m_sName = s; }
-    void SetTitle(const COptionalTranslation& s) {
-        m_Title = s;
-    }
+    void SetTitle(const COptionalTranslation& s) { m_Title = s; }
     void AddParam(const CString& sName, const CString& sValue) {
         m_vParams.push_back(make_pair(sName, sValue));
     }

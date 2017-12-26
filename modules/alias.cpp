@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-#include <znc/Client.h>
 #include <znc/Chan.h>
-#include <znc/Modules.h>
+#include <znc/Client.h>
 #include <znc/IRCNetwork.h>
+#include <znc/Modules.h>
 
 #include <sstream>
 #include <stdexcept>
 
-using std::vector;
 using std::stringstream;
+using std::vector;
 
 class CAlias {
   private:
@@ -127,8 +127,7 @@ class CAlias {
         // try to read end-of-substitution marker
         if (alias_data.length() > index && alias_data[index] == '%') {
             ++index;
-        }
-        else
+        } else
             return;
 
         // if we get here, we're definitely dealing with a token, so get the

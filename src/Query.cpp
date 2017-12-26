@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-#include <znc/Query.h>
-#include <znc/User.h>
 #include <znc/IRCNetwork.h>
 #include <znc/Message.h>
+#include <znc/Query.h>
+#include <znc/User.h>
 
 using std::vector;
 

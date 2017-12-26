@@ -17,14 +17,14 @@
 #ifndef ZNC_FILEUTILS_H
 #define ZNC_FILEUTILS_H
 
-#include <znc/zncconfig.h>
-#include <znc/ZNCString.h>
 #include <dirent.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <znc/ZNCString.h>
+#include <znc/zncconfig.h>
 #include <vector>
 
 class CFile {

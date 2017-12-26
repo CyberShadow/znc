@@ -15,15 +15,15 @@
  */
 
 #include <znc/Chan.h>
+#include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
 #include <znc/Server.h>
 #include <znc/User.h>
-#include <znc/IRCNetwork.h>
 
 #include <tcl.h>
 
-using std::vector;
 using std::map;
+using std::vector;
 
 #define STDVAR (ClientData cd, Tcl_Interp * irp, int argc, const char* argv[])
 

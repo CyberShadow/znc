@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
+#include <time.h>
 #include <znc/User.h>
 #include <znc/znc.h>
-#include <time.h>
 
 using std::map;
-using std::pair;
 using std::multimap;
+using std::pair;
 
 class CLastSeenMod : public CModule {
   private:

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include <znc/znc.h>
-#include <znc/User.h>
 #include <znc/FileUtils.h>
+#include <znc/User.h>
+#include <znc/znc.h>
 
 using std::set;
 
@@ -263,11 +263,11 @@ class CDCCMod : public CModule {
 
                 if (pSock->GetLocalPort() == uResumePort) {
                     if (pSock->Seek(uResumeSize)) {
-                        PutModule(
-                            t_f("Attempting to resume send from position {1} "
-                                "of file [{2}] for [{3}]")(
-                                uResumeSize, pSock->GetFileName(),
-                                pSock->GetRemoteNick()));
+                        PutModule(t_f(
+                            "Attempting to resume send from position {1} "
+                            "of file [{2}] for [{3}]")(uResumeSize,
+                                                       pSock->GetFileName(),
+                                                       pSock->GetRemoteNick()));
                         PutUser(":*dcc!znc@znc.in PRIVMSG " +
                                 GetUser()->GetNick() + " :\001DCC ACCEPT " +
                                 sFile + " " + CString(uResumePort) + " " +
@@ -397,9 +397,8 @@ void CDCCSock::Timeout() {
         m_pModule->PutModule(t_f("Sending [{1}] to [{2}]: Timeout.")(
             m_sFileName, m_sRemoteNick));
     } else {
-        m_pModule->PutModule(
-            t_f("Receiving [{1}] from [{2}]: Timeout.")(
-                m_sFileName, m_sRemoteNick));
+        m_pModule->PutModule(t_f("Receiving [{1}] from [{2}]: Timeout.")(
+            m_sFileName, m_sRemoteNick));
     }
 }
 
@@ -568,9 +567,8 @@ CFile* CDCCSock::OpenFile(bool bWrite) {
         if (!m_pFile->IsReg()) {
             delete m_pFile;
             m_pFile = nullptr;
-            m_pModule->PutModule(
-                t_f("Sending [{1}] to [{2}]: Not a file.")(
-                    m_sFileName, m_sRemoteNick));
+            m_pModule->PutModule(t_f("Sending [{1}] to [{2}]: Not a file.")(
+                m_sFileName, m_sRemoteNick));
             return nullptr;
         }
 

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <znc/znc.h>
 #include <znc/User.h>
+#include <znc/znc.h>
 
 class CFailToBanMod : public CModule {
   public:

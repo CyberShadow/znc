@@ -17,10 +17,10 @@
 #ifndef ZNC_USER_H
 #define ZNC_USER_H
 
-#include <znc/zncconfig.h>
-#include <znc/Utils.h>
 #include <znc/Buffer.h>
 #include <znc/Nick.h>
+#include <znc/Utils.h>
+#include <znc/zncconfig.h>
 #include <set>
 #include <vector>
 

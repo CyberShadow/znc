@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include <znc/ZNCString.h>
+#include <gtest/gtest.h>
 #include <znc/Message.h>
+#include <znc/ZNCString.h>
 
-using ::testing::IsEmpty;
 using ::testing::ContainerEq;
+using ::testing::IsEmpty;
 
 TEST(MessageTest, SetParam) {
     CMessage msg;

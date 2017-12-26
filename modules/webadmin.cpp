@@ -15,16 +15,16 @@
  */
 
 #include <znc/Chan.h>
-#include <znc/Server.h>
-#include <znc/User.h>
 #include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
+#include <znc/Server.h>
+#include <znc/User.h>
 
-using std::stringstream;
 using std::make_pair;
-using std::set;
-using std::vector;
 using std::map;
+using std::set;
+using std::stringstream;
+using std::vector;
 
 /* Stuff to be able to write this:
    // i will be name of local variable, see below
@@ -717,9 +717,9 @@ class CWebAdminMod : public CModule {
                 GetWebPath() + "edituser?user=" + pUser->GetUserName();
             CTemplate& breadNet = Tmpl.AddRow("BreadCrumbs");
             breadNet["Text"] = t_f("Edit Network [{1}]")(pNetwork->GetName());
-            breadNet["URL"] = GetWebPath() + "editnetwork?user=" +
-                              pUser->GetUserName() + "&network=" +
-                              pNetwork->GetName();
+            breadNet["URL"] = GetWebPath() +
+                              "editnetwork?user=" + pUser->GetUserName() +
+                              "&network=" + pNetwork->GetName();
             CTemplate& breadChan = Tmpl.AddRow("BreadCrumbs");
 
             if (pChan) {
@@ -863,16 +863,16 @@ class CWebAdminMod : public CModule {
         }
 
         if (WebSock.HasParam("submit_return")) {
-            WebSock.Redirect(GetWebPath() + "editnetwork?user=" +
-                             pUser->GetUserName().Escape_n(CString::EURL) +
-                             "&network=" +
-                             pNetwork->GetName().Escape_n(CString::EURL));
+            WebSock.Redirect(
+                GetWebPath() + "editnetwork?user=" +
+                pUser->GetUserName().Escape_n(CString::EURL) +
+                "&network=" + pNetwork->GetName().Escape_n(CString::EURL));
         } else {
             WebSock.Redirect(
                 GetWebPath() + "editchan?user=" +
-                pUser->GetUserName().Escape_n(CString::EURL) + "&network=" +
-                pNetwork->GetName().Escape_n(CString::EURL) + "&name=" +
-                pChan->GetName().Escape_n(CString::EURL));
+                pUser->GetUserName().Escape_n(CString::EURL) +
+                "&network=" + pNetwork->GetName().Escape_n(CString::EURL) +
+                "&name=" + pChan->GetName().Escape_n(CString::EURL));
         }
         return true;
     }
@@ -1238,10 +1238,10 @@ class CWebAdminMod : public CModule {
             WebSock.Redirect(GetWebPath() + "edituser?user=" +
                              pUser->GetUserName().Escape_n(CString::EURL));
         } else {
-            WebSock.Redirect(GetWebPath() + "editnetwork?user=" +
-                             pUser->GetUserName().Escape_n(CString::EURL) +
-                             "&network=" +
-                             pNetwork->GetName().Escape_n(CString::EURL));
+            WebSock.Redirect(
+                GetWebPath() + "editnetwork?user=" +
+                pUser->GetUserName().Escape_n(CString::EURL) +
+                "&network=" + pNetwork->GetName().Escape_n(CString::EURL));
         }
         return true;
     }
@@ -1656,8 +1656,8 @@ class CWebAdminMod : public CModule {
         if (spSession->IsAdmin() && WebSock.HasParam("submit_return")) {
             WebSock.Redirect(GetWebPath() + "listusers");
         } else {
-            WebSock.Redirect(GetWebPath() + "edituser?user=" +
-                             pUser->GetUserName());
+            WebSock.Redirect(GetWebPath() +
+                             "edituser?user=" + pUser->GetUserName());
         }
 
         /* we don't want the template to be printed while we redirect */
@@ -1885,7 +1885,8 @@ class CWebAdminMod : public CModule {
             Tmpl["ProtectWebSessions"] =
                 CString(CZNC::Get().GetProtectWebSessions());
             Tmpl["HideVersion"] = CString(CZNC::Get().GetHideVersion());
-            Tmpl["AuthOnlyViaModule"] = CString(CZNC::Get().GetAuthOnlyViaModule());
+            Tmpl["AuthOnlyViaModule"] =
+                CString(CZNC::Get().GetAuthOnlyViaModule());
 
             const VCString& vsMotd = CZNC::Get().GetMotd();
             for (const CString& sMotd : vsMotd) {
@@ -1901,7 +1902,7 @@ class CWebAdminMod : public CModule {
                 l["BindHost"] = pListener->GetBindHost();
 
                 l["IsHTTP"] = CString(pListener->GetAcceptType() !=
-                                     CListener::ACCEPT_IRC);
+                                      CListener::ACCEPT_IRC);
                 l["IsIRC"] = CString(pListener->GetAcceptType() !=
                                      CListener::ACCEPT_HTTP);
 

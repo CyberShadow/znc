@@ -17,8 +17,8 @@
 #ifndef ZNC_TEMPLATE_H
 #define ZNC_TEMPLATE_H
 
-#include <znc/zncconfig.h>
 #include <znc/ZNCString.h>
+#include <znc/zncconfig.h>
 #include <iostream>
 #include <list>
 #include <memory>

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <znc/HTTPSock.h>
 #include <znc/FileUtils.h>
+#include <znc/HTTPSock.h>
 #include <znc/znc.h>
 #include <iomanip>
 
@@ -187,8 +187,8 @@ void CHTTPSock::ReadLine(const CString& sData) {
     } else if (sName.Equals("Accept-Encoding:") && !m_bHTTP10Client) {
         SCString ssEncodings;
         // trimming whitespace from the tokens is important:
-        sLine.Token(1, true)
-            .Split(",", ssEncodings, false, "", "", false, true);
+        sLine.Token(1, true).Split(",", ssEncodings, false, "", "", false,
+                                   true);
         m_bAcceptGzip = (ssEncodings.find("gzip") != ssEncodings.end());
     } else if (sLine.empty()) {
         if (m_bBasicAuth && !m_bLoggedIn) {
@@ -780,9 +780,9 @@ bool CHTTPSock::Redirect(const CString& sURL) {
         DEBUG("- Redirect to [" << location
                                 << "] with prefix [" + m_sURIPrefix + "]");
         AddHeader("Location", location);
-        PrintErrorPage(302, "Found", "The document has moved <a href=\"" +
-                                         location.Escape_n(CString::EHTML) +
-                                         "\">here</a>.");
+        PrintErrorPage(302, "Found",
+                       "The document has moved <a href=\"" +
+                           location.Escape_n(CString::EHTML) + "\">here</a>.");
 
         return true;
     }

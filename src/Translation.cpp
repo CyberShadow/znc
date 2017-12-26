@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <znc/Translation.h>
 #include <znc/FileUtils.h>
+#include <znc/Translation.h>
 
 #ifdef HAVE_I18N
 #include <boost/locale.hpp>
@@ -135,7 +135,6 @@ CDelayedTranslation CCoreTranslationMixin::t_d(const CString& sEnglish,
                                                const CString& sContext) {
     return CDelayedTranslation("znc", sContext, sEnglish);
 }
-
 
 CLanguageScope::CLanguageScope(const CString& sLanguage) {
     CTranslation::Get().PushLanguage(sLanguage);

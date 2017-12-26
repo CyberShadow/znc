@@ -17,10 +17,10 @@
 #ifndef ZNC_SOCKET_H
 #define ZNC_SOCKET_H
 
-#include <znc/zncconfig.h>
 #include <znc/Csocket.h>
 #include <znc/Threads.h>
 #include <znc/Translation.h>
+#include <znc/zncconfig.h>
 
 class CModule;
 
@@ -234,10 +234,12 @@ class CSockManager : public TSocketManager<CZNCSock> {
  * @class CSocket
  * @brief Base Csock implementation to be used by modules
  *
- * By all means, this class should be used as a base for sockets originating from modules. It handles removing instances of itself
- * from the module as it unloads, and simplifies use in general.
+ * By all means, this class should be used as a base for sockets originating
+ * from modules. It handles removing instances of itself from the module as it
+ * unloads, and simplifies use in general.
  * - EnableReadLine is default to true in this class
- * - MaxBuffer for readline is set to 10240, in the event this is reached the socket is closed (@see ReachedMaxBuffer)
+ * - MaxBuffer for readline is set to 10240, in the event this is reached the
+ * socket is closed (@see ReachedMaxBuffer)
  */
 class CSocket : public CZNCSock {
   public:
@@ -305,14 +307,16 @@ class CIRCSocket : public CZNCSock {
   public:
 #ifdef HAVE_ICU
     /**
-     * @brief Allow IRC control characters to appear even if protocol encoding explicitly disallows them.
+     * @brief Allow IRC control characters to appear even if protocol encoding
+     * explicitly disallows them.
      *
      * E.g. ISO-2022-JP disallows 0x0F, which in IRC means "reset format",
      * so by default it gets replaced with U+FFFD ("replacement character").
      * https://code.google.com/p/chromium/issues/detail?id=277062#c3
      *
-     * In case if protocol encoding uses these code points for something else, the encoding takes preference,
-     * and they are not IRC control characters anymore.
+     * In case if protocol encoding uses these code points for something else,
+     * the encoding takes preference, and they are not IRC control characters
+     * anymore.
      */
     void IcuExtToUCallback(UConverterToUnicodeArgs* toArgs,
                            const char* codeUnits, int32_t length,

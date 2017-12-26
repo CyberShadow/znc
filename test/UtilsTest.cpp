@@ -128,15 +128,17 @@ TEST_P(TimeTest, FormatTime) {
     EXPECT_EQ(std::get<3>(GetParam()), CUtils::FormatTime(tv, "%s.%9f", "UTC"));
 }
 
-INSTANTIATE_TEST_CASE_P(
-    TimeTest, TimeTest,
-    testing::Values(
-        // leading zeroes
-        std::make_tuple(timeval{42, 12345}, "42.012", "42.012345", "42.012345000"),
-        // (no) rounding
-        std::make_tuple(timeval{42, 999999}, "42.999", "42.999999", "42.999999000"),
-        // no tv_usec part
-        std::make_tuple(timeval{42, 0}, "42.000", "42.000000", "42.000000000")));
+INSTANTIATE_TEST_CASE_P(TimeTest, TimeTest,
+                        testing::Values(
+                            // leading zeroes
+                            std::make_tuple(timeval{42, 12345}, "42.012",
+                                            "42.012345", "42.012345000"),
+                            // (no) rounding
+                            std::make_tuple(timeval{42, 999999}, "42.999",
+                                            "42.999999", "42.999999000"),
+                            // no tv_usec part
+                            std::make_tuple(timeval{42, 0}, "42.000",
+                                            "42.000000", "42.000000000")));
 
 TEST(UtilsTest, FormatTime) {
     // Test passthrough

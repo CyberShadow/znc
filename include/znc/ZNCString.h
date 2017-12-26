@@ -17,14 +17,14 @@
 #ifndef ZNCSTRING_H
 #define ZNCSTRING_H
 
+#include <sys/types.h>
 #include <znc/zncconfig.h>
+#include <initializer_list>
 #include <map>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <sys/types.h>
-#include <initializer_list>
 
 #define _SQL(s) CString("'" + CString(s).Escape_n(CString::ESQL) + "'")
 #define _URL(s) CString(s).Escape_n(CString::EURL)
@@ -105,9 +105,10 @@ class CString : public std::string {
     ~CString() {}
 
     /**
-     * Casts a CString to another type.  Implemented via std::stringstream, you use this
-     * for any class that has an operator<<(std::ostream, YourClass).
-     * @param target The object to cast into. If the cast fails, its state is unspecified.
+     * Casts a CString to another type.  Implemented via std::stringstream, you
+     * use this for any class that has an operator<<(std::ostream, YourClass).
+     * @param target The object to cast into. If the cast fails, its state is
+     * unspecified.
      * @return True if the cast succeeds, and false if it fails.
      */
     template <typename T>
@@ -120,7 +121,8 @@ class CString : public std::string {
     /**
      * Joins a collection of objects together, using 'this' as a delimiter.
      * You can pass either pointers to arrays, or iterators to collections.
-     * @param i_begin An iterator pointing to the beginning of a group of objects.
+     * @param i_begin An iterator pointing to the beginning of a group of
+     * objects.
      * @param i_end An iterator pointing past the end of a group of objects.
      * @return The joined string
      */
@@ -666,7 +668,7 @@ class MCString : public std::map<CString, CString> {
 namespace std {
 template <>
 struct hash<CString> : hash<std::string> {};
-}
+}  // namespace std
 
 // Make translateable messages easy to write:
 // t_f("Foo is {1}")(foo)

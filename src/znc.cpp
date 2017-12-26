@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-#include <znc/znc.h>
+#include <time.h>
+#include <znc/Config.h>
 #include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
 #include <znc/Server.h>
 #include <znc/User.h>
-#include <znc/IRCNetwork.h>
-#include <znc/Config.h>
-#include <time.h>
-#include <tuple>
+#include <znc/znc.h>
 #include <algorithm>
+#include <tuple>
 
-using std::endl;
 using std::cout;
+using std::endl;
+using std::list;
+using std::make_tuple;
 using std::map;
 using std::set;
-using std::vector;
-using std::list;
 using std::tuple;
-using std::make_tuple;
+using std::vector;
 
 static inline CString FormatBindError() {
     CString sError = (errno == 0 ? CString("unknown error, check the host name")
@@ -148,7 +148,7 @@ CString CZNC::GetCompileOptionsString() {
 #else
                                             "autoconf"
 #endif
-                                            );
+                                        );
 }
 
 CString CZNC::GetUptime() const {
@@ -222,7 +222,8 @@ void CZNC::Loop() {
 
                 if (GetConfigWriteDelay() > 0) {
                     if (m_pConfigTimer == nullptr) {
-                        m_pConfigTimer = new CConfigWriteTimer(GetConfigWriteDelay());
+                        m_pConfigTimer =
+                            new CConfigWriteTimer(GetConfigWriteDelay());
                         GetManager().AddCron(m_pConfigTimer);
                     }
                     break;
@@ -465,8 +466,8 @@ bool CZNC::WriteConfig() {
     CFile* pFile = new CFile(GetConfigFile() + "~");
 
     if (!pFile->Open(O_WRONLY | O_CREAT | O_TRUNC, 0600)) {
-        DEBUG("Could not write config to " + GetConfigFile() + "~: " +
-              CString(strerror(errno)));
+        DEBUG("Could not write config to " + GetConfigFile() +
+              "~: " + CString(strerror(errno)));
         delete pFile;
         return false;
     }
@@ -905,8 +906,11 @@ bool CZNC::WriteNewConfig(const CString& sConfigFile) {
         CUtils::PrintMessage("");
         CUtils::PrintMessage("Printing the new config to stdout:");
         CUtils::PrintMessage("");
-        cout << endl << "------------------------------------------------------"
-                        "----------------------" << endl << endl;
+        cout << endl
+             << "------------------------------------------------------"
+                "----------------------"
+             << endl
+             << endl;
     }
 
     for (const CString& sLine : vsLines) {
@@ -925,20 +929,29 @@ bool CZNC::WriteNewConfig(const CString& sConfigFile) {
         else
             CUtils::PrintStatus(true);
     } else {
-        cout << endl << "------------------------------------------------------"
-                        "----------------------" << endl << endl;
+        cout << endl
+             << "------------------------------------------------------"
+                "----------------------"
+             << endl
+             << endl;
     }
 
     if (File.HadError()) {
         bFileOpen = false;
         CUtils::PrintMessage("Printing the new config to stdout instead:");
-        cout << endl << "------------------------------------------------------"
-                        "----------------------" << endl << endl;
+        cout << endl
+             << "------------------------------------------------------"
+                "----------------------"
+             << endl
+             << endl;
         for (const CString& sLine : vsLines) {
             cout << sLine << endl;
         }
-        cout << endl << "------------------------------------------------------"
-                        "----------------------" << endl << endl;
+        cout << endl
+             << "------------------------------------------------------"
+                "----------------------"
+             << endl
+             << endl;
     }
 
     const CString sProtocol(bListenSSL ? "https" : "http");

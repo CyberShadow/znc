@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
 #include <znc/IRCNetwork.h>
+#include <znc/User.h>
 #include <znc/znc.h>
 
 class CFOModule : public CModule {

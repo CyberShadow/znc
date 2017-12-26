@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-#include <znc/FileUtils.h>
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
-#include <znc/Chan.h>
-#include <znc/Server.h>
 #include <time.h>
+#include <znc/Chan.h>
+#include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
+#include <znc/Server.h>
+#include <znc/User.h>
 #include <algorithm>
 
 using std::vector;
@@ -171,7 +171,8 @@ void CLogMod::ListRulesCmd(const CString& sLine) {
     for (const CLogRule& Rule : m_vRules) {
         Table.AddRow();
         Table.SetCell(t_s("Rule", "listrules"), Rule.GetRule());
-        Table.SetCell(t_s("Logging enabled", "listrules"), CString(Rule.IsEnabled()));
+        Table.SetCell(t_s("Logging enabled", "listrules"),
+                      CString(Rule.IsEnabled()));
     }
 
     if (Table.empty()) {
@@ -287,8 +288,9 @@ void CLogMod::PutLog(const CString& sLine,
                   CString((GetUser() ? GetUser()->GetUserName() : "UNKNOWN")));
     sPath.Replace("$NETWORK",
                   CString((GetNetwork() ? GetNetwork()->GetName() : "znc")));
-    sPath.Replace("$WINDOW", CString(sWindow.Replace_n("/", "-")
-                                         .Replace_n("\\", "-")).AsLower());
+    sPath.Replace(
+        "$WINDOW",
+        CString(sWindow.Replace_n("/", "-").Replace_n("\\", "-")).AsLower());
 
     // Check if it's allowed to write in this specific path
     sPath = CDir::CheckPathPrefix(GetSavePath(), sPath);
@@ -450,9 +452,8 @@ CModule::EModRet CLogMod::OnSendToIRCMessage(CMessage& Message) {
         return CONTINUE;
     }
     CIRCNetwork* pNetwork = Message.GetNetwork();
-    OnQuit(pNetwork->GetIRCNick(),
-            Message.As<CQuitMessage>().GetReason(),
-            pNetwork->GetChans());
+    OnQuit(pNetwork->GetIRCNick(), Message.As<CQuitMessage>().GetReason(),
+           pNetwork->GetChans());
     return CONTINUE;
 }
 

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include <znc/Modules.h>
-#include <znc/Chan.h>
 #include <time.h>
+#include <znc/Chan.h>
+#include <znc/Modules.h>
 
 class CCtcpFloodMod : public CModule {
   public:

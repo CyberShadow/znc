@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-#include <znc/Buffer.h>
-#include <znc/znc.h>
-#include <znc/User.h>
 #include <time.h>
+#include <znc/Buffer.h>
+#include <znc/User.h>
+#include <znc/znc.h>
 
 CBufLine::CBufLine(const CMessage& Format, const CString& sText)
     : m_Message(Format), m_sText(sText) {}
@@ -36,9 +36,7 @@ CBufLine::CBufLine(const CString& sFormat, const CString& sText,
 
 CBufLine::~CBufLine() {}
 
-void CBufLine::UpdateTime() {
-    m_Message.SetTime(CUtils::GetTime());
-}
+void CBufLine::UpdateTime() { m_Message.SetTime(CUtils::GetTime()); }
 
 CMessage CBufLine::ToMessage(const CClient& Client,
                              const MCString& mssParams) const {

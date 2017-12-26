@@ -243,20 +243,13 @@ void CMessage::InitType() {
         }
     } else {
         std::map<CString, Type> mTypes = {
-            {"ACCOUNT", Type::Account},
-            {"AWAY", Type::Away},
-            {"CAP", Type::Capability},
-            {"ERROR", Type::Error},
-            {"INVITE", Type::Invite},
-            {"JOIN", Type::Join},
-            {"KICK", Type::Kick},
-            {"MODE", Type::Mode},
-            {"NICK", Type::Nick},
-            {"PART", Type::Part},
-            {"PING", Type::Ping},
-            {"PONG", Type::Pong},
-            {"QUIT", Type::Quit},
-            {"TOPIC", Type::Topic},
+            {"ACCOUNT", Type::Account}, {"AWAY", Type::Away},
+            {"CAP", Type::Capability},  {"ERROR", Type::Error},
+            {"INVITE", Type::Invite},   {"JOIN", Type::Join},
+            {"KICK", Type::Kick},       {"MODE", Type::Mode},
+            {"NICK", Type::Nick},       {"PART", Type::Part},
+            {"PING", Type::Ping},       {"PONG", Type::Pong},
+            {"QUIT", Type::Quit},       {"TOPIC", Type::Topic},
             {"WALLOPS", Type::Wallops},
         };
         auto it = mTypes.find(m_sCommand.AsUpper());

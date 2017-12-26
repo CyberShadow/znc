@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-#include <znc/Modules.h>
+#include <dlfcn.h>
 #include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
+#include <znc/Modules.h>
+#include <znc/Query.h>
 #include <znc/Template.h>
 #include <znc/User.h>
-#include <znc/Query.h>
-#include <znc/IRCNetwork.h>
 #include <znc/WebModules.h>
 #include <znc/znc.h>
-#include <dlfcn.h>
 
 using std::map;
 using std::set;
@@ -588,7 +588,7 @@ bool CModule::OnWebRequest(CWebSock& WebSock, const CString& sPageName,
     return false;
 }
 bool CModule::ValidateWebRequestCSRFCheck(CWebSock& WebSock,
-    const CString& sPageName) {
+                                          const CString& sPageName) {
     return WebSock.ValidateCSRFCheck(WebSock.GetURI());
 }
 bool CModule::OnEmbeddedWebRequest(CWebSock& WebSock, const CString& sPageName,

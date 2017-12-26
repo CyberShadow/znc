@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
 #include <znc/IRCNetwork.h>
+#include <znc/User.h>
 
-using std::vector;
 using std::map;
+using std::vector;
 
 class CSendRaw_Mod : public CModule {
     void SendClient(const CString& sLine) {

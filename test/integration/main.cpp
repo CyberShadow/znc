@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QNetworkAccessManager>
-#include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QProcess>
 #include <QTcpServer>
 #include <QTcpSocket>
@@ -82,8 +82,9 @@ class IO {
     }
     /*
      * Reads from Device until pattern is matched and returns this pattern
-     * up to and excluding the first newline. Pattern itself can contain a newline.
-     * Have to use second param as the ASSERT_*'s return a non-QByteArray.
+     * up to and excluding the first newline. Pattern itself can contain a
+     * newline. Have to use second param as the ASSERT_*'s return a
+     * non-QByteArray.
      */
     void ReadUntilAndGet(QByteArray pattern, QByteArray& match) {
         auto deadline = QDateTime::currentDateTime().addSecs(60);
@@ -93,15 +94,15 @@ class IO {
                 int start = 0;
                 /* Don't look for what we've already found */
                 if (pattern != "\n") {
-                  int patlen = pattern.length();
-                  start = search;
-                  pattern = QByteArray("\n");
-                  search = m_readed.indexOf(pattern, start + patlen);
+                    int patlen = pattern.length();
+                    start = search;
+                    pattern = QByteArray("\n");
+                    search = m_readed.indexOf(pattern, start + patlen);
                 }
                 if (search != -1) {
-                  match += m_readed.mid(start, search - start);
-                  m_readed.remove(0, search + 1);
-                  return;
+                    match += m_readed.mid(start, search - start);
+                    m_readed.remove(0, search + 1);
+                    return;
                 }
                 /* No newline yet, add to retvalue and trunc output */
                 match += m_readed.mid(start);
@@ -299,8 +300,9 @@ class ZNCTest : public testing::Test {
 
     std::unique_ptr<Process> Run() {
         return std::unique_ptr<Process>(new Process(
-            ZNC_BIN_DIR "/znc", QStringList() << "--debug"
-                                              << "--datadir" << m_dir.path(),
+            ZNC_BIN_DIR "/znc",
+            QStringList() << "--debug"
+                          << "--datadir" << m_dir.path(),
             [](QProcess* proc) {
                 proc->setProcessChannelMode(QProcess::ForwardedChannels);
             }));
@@ -846,10 +848,10 @@ TEST_F(ZNCTest, ModuleCSRFOverride) {
     client.Write("znc loadmod samplewebapi");
     client.ReadUntil("Loaded module");
     Z;
-    auto request = QNetworkRequest(QUrl("http://127.0.0.1:12345/mods/global/samplewebapi/"));
-    auto reply = HttpPost(request, {
-        {"text", "ipsum"}
-    })->readAll().toStdString();
+    auto request = QNetworkRequest(
+        QUrl("http://127.0.0.1:12345/mods/global/samplewebapi/"));
+    auto reply =
+        HttpPost(request, {{"text", "ipsum"}})->readAll().toStdString();
     Z;
     EXPECT_THAT(reply, HasSubstr("ipsum"));
 }

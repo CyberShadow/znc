@@ -17,10 +17,10 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
 #include <znc/Chan.h>
+#include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
+#include <znc/User.h>
 
 using std::map;
 using std::vector;
@@ -127,19 +127,14 @@ class CAdminMod : public CModule {
         if (sCmdFilter.empty() || sCmdFilter.StartsWith("SetNetwork") ||
             sCmdFilter.StartsWith("GetNetwork")) {
             Setting nvars[] = {
-                {"Nick", str},
-                {"Altnick", str},
-                {"Ident", str},
-                {"RealName", str},
-                {"BindHost", str},
-                {"FloodRate", number},
-                {"FloodBurst", integer},
-                {"JoinDelay", integer},
+                {"Nick", str},           {"Altnick", str},
+                {"Ident", str},          {"RealName", str},
+                {"BindHost", str},       {"FloodRate", number},
+                {"FloodBurst", integer}, {"JoinDelay", integer},
 #ifdef HAVE_ICU
                 {"Encoding", str},
 #endif
-                {"QuitMsg", str},
-                {"TrustAllCerts", boolean},
+                {"QuitMsg", str},        {"TrustAllCerts", boolean},
                 {"TrustPKI", boolean},
             };
             PrintVarsHelp(sVarFilter, nvars, ARRAY_SIZE(nvars),
@@ -570,7 +565,8 @@ class CAdminMod : public CModule {
         } else if (sVar.Equals("quitmsg")) {
             PutModule("QuitMsg = " + pNetwork->GetQuitMsg());
         } else if (sVar.Equals("trustallcerts")) {
-            PutModule("TrustAllCerts = " + CString(pNetwork->GetTrustAllCerts()));
+            PutModule("TrustAllCerts = " +
+                      CString(pNetwork->GetTrustAllCerts()));
         } else if (sVar.Equals("trustpki")) {
             PutModule("TrustPKI = " + CString(pNetwork->GetTrustPKI()));
         } else {
@@ -757,8 +753,8 @@ class CAdminMod : public CModule {
 
         for (CChan* pChan : vChans) {
             if (sVar == "defmodes") {
-                PutModule(pChan->GetName() + ": DefModes = " +
-                          pChan->GetDefaultModes());
+                PutModule(pChan->GetName() +
+                          ": DefModes = " + pChan->GetDefaultModes());
             } else if (sVar == "buffersize" || sVar == "buffer") {
                 CString sValue(pChan->GetBufferCount());
                 if (!pChan->HasBufferCountSet()) {
@@ -766,8 +762,8 @@ class CAdminMod : public CModule {
                 }
                 PutModule(pChan->GetName() + ": BufferSize = " + sValue);
             } else if (sVar == "inconfig") {
-                PutModule(pChan->GetName() + ": InConfig = " +
-                          CString(pChan->InConfig()));
+                PutModule(pChan->GetName() +
+                          ": InConfig = " + CString(pChan->InConfig()));
             } else if (sVar == "keepbuffer") {
                 // XXX compatibility crap, added in 0.207
                 PutModule(pChan->GetName() + ": KeepBuffer = " +
@@ -777,11 +773,11 @@ class CAdminMod : public CModule {
                 if (!pChan->HasAutoClearChanBufferSet()) {
                     sValue += " (default)";
                 }
-                PutModule(pChan->GetName() + ": AutoClearChanBuffer = " +
-                          sValue);
+                PutModule(pChan->GetName() +
+                          ": AutoClearChanBuffer = " + sValue);
             } else if (sVar == "detached") {
-                PutModule(pChan->GetName() + ": Detached = " +
-                          CString(pChan->IsDetached()));
+                PutModule(pChan->GetName() +
+                          ": Detached = " + CString(pChan->IsDetached()));
             } else if (sVar == "key") {
                 PutModule(pChan->GetName() + ": Key = " + pChan->GetKey());
             } else {
@@ -846,8 +842,8 @@ class CAdminMod : public CModule {
                 // XXX compatibility crap, added in 0.207
                 bool b = !sValue.ToBool();
                 pChan->SetAutoClearChanBuffer(b);
-                PutModule(pChan->GetName() + ": AutoClearChanBuffer = " +
-                          CString(b));
+                PutModule(pChan->GetName() +
+                          ": AutoClearChanBuffer = " + CString(b));
             } else if (sVar == "autoclearchanbuffer") {
                 if (sValue.Equals("-")) {
                     pChan->ResetAutoClearChanBuffer();
@@ -1345,9 +1341,9 @@ class CAdminMod : public CModule {
         }
 
         if (pUser->DelCTCPReply(sCTCPRequest)) {
-            PutModule(t_f(
-                "CTCP requests {1} to user {2} will now be sent to IRC clients")(
-                sCTCPRequest.AsUpper(), pUser->GetUserName()));
+            PutModule(
+                t_f("CTCP requests {1} to user {2} will now be sent to IRC "
+                    "clients")(sCTCPRequest.AsUpper(), pUser->GetUserName()));
         } else {
             PutModule(
                 t_f("CTCP requests {1} to user {2} will be sent to IRC clients "
@@ -1654,4 +1650,4 @@ void TModInfo<CAdminMod>(CModInfo& Info) {
 
 USERMODULEDEFS(CAdminMod,
                t_s("Dynamic configuration through IRC. Allows editing only "
-               "yourself if you're not ZNC admin."))
+                   "yourself if you're not ZNC admin."))

@@ -17,10 +17,10 @@
 #ifndef ZNC_BUFFER_H
 #define ZNC_BUFFER_H
 
-#include <znc/zncconfig.h>
-#include <znc/ZNCString.h>
-#include <znc/Message.h>
 #include <sys/time.h>
+#include <znc/Message.h>
+#include <znc/ZNCString.h>
+#include <znc/zncconfig.h>
 #include <deque>
 
 // Forward Declarations

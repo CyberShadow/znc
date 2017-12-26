@@ -18,8 +18,8 @@
 #include <znc/IRCNetwork.h>
 
 using std::list;
-using std::vector;
 using std::set;
+using std::vector;
 
 class CWatchSource {
   public:
@@ -181,8 +181,9 @@ class CWatcherMod : public CModule {
 
     void OnRawMode(const CNick& OpNick, CChan& Channel, const CString& sModes,
                    const CString& sArgs) override {
-        Process(OpNick, "* " + OpNick.GetNick() + " sets mode: " + sModes +
-                            " " + sArgs + " on " + Channel.GetName(),
+        Process(OpNick,
+                "* " + OpNick.GetNick() + " sets mode: " + sModes + " " +
+                    sArgs + " on " + Channel.GetName(),
                 Channel.GetName());
     }
 
@@ -207,25 +208,28 @@ class CWatcherMod : public CModule {
 
     void OnQuit(const CNick& Nick, const CString& sMessage,
                 const vector<CChan*>& vChans) override {
-        Process(Nick, "* Quits: " + Nick.GetNick() + " (" + Nick.GetIdent() +
-                          "@" + Nick.GetHost() +
-                          ") "
-                          "(" +
-                          sMessage + ")",
+        Process(Nick,
+                "* Quits: " + Nick.GetNick() + " (" + Nick.GetIdent() + "@" +
+                    Nick.GetHost() +
+                    ") "
+                    "(" +
+                    sMessage + ")",
                 "");
     }
 
     void OnJoin(const CNick& Nick, CChan& Channel) override {
-        Process(Nick, "* " + Nick.GetNick() + " (" + Nick.GetIdent() + "@" +
-                          Nick.GetHost() + ") joins " + Channel.GetName(),
+        Process(Nick,
+                "* " + Nick.GetNick() + " (" + Nick.GetIdent() + "@" +
+                    Nick.GetHost() + ") joins " + Channel.GetName(),
                 Channel.GetName());
     }
 
     void OnPart(const CNick& Nick, CChan& Channel,
                 const CString& sMessage) override {
-        Process(Nick, "* " + Nick.GetNick() + " (" + Nick.GetIdent() + "@" +
-                          Nick.GetHost() + ") parts " + Channel.GetName() +
-                          "(" + sMessage + ")",
+        Process(Nick,
+                "* " + Nick.GetNick() + " (" + Nick.GetIdent() + "@" +
+                    Nick.GetHost() + ") parts " + Channel.GetName() + "(" +
+                    sMessage + ")",
                 Channel.GetName());
     }
 
@@ -249,10 +253,11 @@ class CWatcherMod : public CModule {
 
     EModRet OnChanCTCP(CNick& Nick, CChan& Channel,
                        CString& sMessage) override {
-        Process(Nick, "* CTCP: " + Nick.GetNick() + " [" + sMessage +
-                          "] to "
-                          "[" +
-                          Channel.GetName() + "]",
+        Process(Nick,
+                "* CTCP: " + Nick.GetNick() + " [" + sMessage +
+                    "] to "
+                    "[" +
+                    Channel.GetName() + "]",
                 Channel.GetName());
         return CONTINUE;
     }
@@ -264,9 +269,10 @@ class CWatcherMod : public CModule {
 
     EModRet OnChanNotice(CNick& Nick, CChan& Channel,
                          CString& sMessage) override {
-        Process(Nick, "-" + Nick.GetNick() + ":" + Channel.GetName() + "- " +
-                          sMessage,
-                Channel.GetName());
+        Process(
+            Nick,
+            "-" + Nick.GetNick() + ":" + Channel.GetName() + "- " + sMessage,
+            Channel.GetName());
         return CONTINUE;
     }
 
@@ -276,9 +282,10 @@ class CWatcherMod : public CModule {
     }
 
     EModRet OnChanMsg(CNick& Nick, CChan& Channel, CString& sMessage) override {
-        Process(Nick, "<" + Nick.GetNick() + ":" + Channel.GetName() + "> " +
-                          sMessage,
-                Channel.GetName());
+        Process(
+            Nick,
+            "<" + Nick.GetNick() + ":" + Channel.GetName() + "> " + sMessage,
+            Channel.GetName());
         return CONTINUE;
     }
 

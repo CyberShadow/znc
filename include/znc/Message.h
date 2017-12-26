@@ -30,10 +30,10 @@
 #define ZNC_LVREFQUAL
 #endif
 
-#include <znc/zncconfig.h>
-#include <znc/ZNCString.h>
-#include <znc/Nick.h>
 #include <sys/time.h>
+#include <znc/Nick.h>
+#include <znc/ZNCString.h>
+#include <znc/zncconfig.h>
 
 class CChan;
 class CClient;

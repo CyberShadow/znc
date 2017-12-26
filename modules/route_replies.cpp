@@ -27,158 +27,159 @@ static const struct {
     const char* szRequest;
     struct reply vReplies[19];
 } vRouteReplies[] = {
-      {"WHO",
-       {{"402", true},   /* rfc1459 ERR_NOSUCHSERVER */
-        {"352", false},  /* rfc1459 RPL_WHOREPLY */
-        {"315", true},   /* rfc1459 RPL_ENDOFWHO */
-        {"354", false},  // e.g. Quaknet uses this for WHO #chan %n
-        {"403", true},   // No such chan
-        {nullptr, true}}},
-      {"LIST",
-       {{"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
-        {"321", false}, /* rfc1459 RPL_LISTSTART */
-        {"322", false}, /* rfc1459 RPL_LIST */
-        {"323", true},  /* rfc1459 RPL_LISTEND */
-        {nullptr, true}}},
-      {"NAMES",
-       {
-        {"353", false}, /* rfc1459 RPL_NAMREPLY */
-        {"366", true},  /* rfc1459 RPL_ENDOFNAMES */
-        // No such nick/channel
-        {"401", true},
-        {nullptr, true},
-       }},
-      {"LUSERS",
-       {{"251", false}, /* rfc1459 RPL_LUSERCLIENT */
-        {"252", false}, /* rfc1459 RPL_LUSEROP */
-        {"253", false}, /* rfc1459 RPL_LUSERUNKNOWN */
-        {"254", false}, /* rfc1459 RPL_LUSERCHANNELS */
-        {"255", false}, /* rfc1459 RPL_LUSERME */
-        {"265", false},
-        {"266", true},
-        // We don't handle 250 here since some IRCds don't sent it
-        //{"250", true},
-        {nullptr, true}}},
-      {"WHOIS",
-       {{"311", false}, /* rfc1459 RPL_WHOISUSER */
-        {"312", false}, /* rfc1459 RPL_WHOISSERVER */
-        {"313", false}, /* rfc1459 RPL_WHOISOPERATOR */
-        {"317", false}, /* rfc1459 RPL_WHOISIDLE */
-        {"319", false}, /* rfc1459 RPL_WHOISCHANNELS */
-        {"301", false}, /* rfc1459 RPL_AWAY */
-        {"276", false}, /* oftc-hybrid RPL_WHOISCERTFP */
-        {"330", false}, /* ratbox RPL_WHOISLOGGEDIN
-                           aka ircu RPL_WHOISACCOUNT */
-        {"338", false}, /* RPL_WHOISACTUALLY -- "actually using host" */
-        {"378", false}, /* RPL_WHOISHOST -- real address of vhosts */
-        {"671", false}, /* RPL_WHOISSECURE */
-        {"307", false}, /* RPL_WHOISREGNICK */
-        {"379", false}, /* RPL_WHOISMODES */
-        {"760", false}, /* ircv3.2 RPL_WHOISKEYVALUE */
-        {"318", true},  /* rfc1459 RPL_ENDOFWHOIS */
-        {"401", true},  /* rfc1459 ERR_NOSUCHNICK */
-        {"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
-        {"431", true},  /* rfc1459 ERR_NONICKNAMEGIVEN */
-        {nullptr, true}}},
-      {"PING",
-       {{"PONG", true},
-        {"402", true}, /* rfc1459 ERR_NOSUCHSERVER */
-        {"409", true}, /* rfc1459 ERR_NOORIGIN */
-        {nullptr, true}}},
-      {"USERHOST",
-       {{"302", true},
-        {"461", true}, /* rfc1459 ERR_NEEDMOREPARAMS */
-        {nullptr, true}}},
-      {"TIME",
-       {{"391", true}, /* rfc1459 RPL_TIME */
-        {"402", true}, /* rfc1459 ERR_NOSUCHSERVER */
-        {nullptr, true}}},
-      {"WHOWAS",
-       {{"406", false}, /* rfc1459 ERR_WASNOSUCHNICK */
-        {"312", false}, /* rfc1459 RPL_WHOISSERVER */
-        {"314", false}, /* rfc1459 RPL_WHOWASUSER */
-        {"369", true},  /* rfc1459 RPL_ENDOFWHOWAS */
-        {"431", true},  /* rfc1459 ERR_NONICKNAMEGIVEN */
-        {nullptr, true}}},
-      {"ISON",
-       {{"303", true}, /* rfc1459 RPL_ISON */
-        {"461", true}, /* rfc1459 ERR_NEEDMOREPARAMS */
-        {nullptr, true}}},
-      {"LINKS",
-       {{"364", false}, /* rfc1459 RPL_LINKS */
-        {"365", true},  /* rfc1459 RPL_ENDOFLINKS */
-        {"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
-        {nullptr, true}}},
-      {"MAP",
-       {{"006", false},
-        // inspircd
-        {"270", false},
-        // SilverLeo wants this two added
-        {"015", false},
-        {"017", true},
-        {"007", true},
-        {"481", true}, /* rfc1459 ERR_NOPRIVILEGES */
-        {nullptr, true}}},
-      {"TRACE",
-       {{"200", false}, /* rfc1459 RPL_TRACELINK */
-        {"201", false}, /* rfc1459 RPL_TRACECONNECTING */
-        {"202", false}, /* rfc1459 RPL_TRACEHANDSHAKE */
-        {"203", false}, /* rfc1459 RPL_TRACEUNKNOWN */
-        {"204", false}, /* rfc1459 RPL_TRACEOPERATOR */
-        {"205", false}, /* rfc1459 RPL_TRACEUSER */
-        {"206", false}, /* rfc1459 RPL_TRACESERVER */
-        {"208", false}, /* rfc1459 RPL_TRACENEWTYPE */
-        {"261", false}, /* rfc1459 RPL_TRACELOG */
-        {"262", true},
-        {"402", true}, /* rfc1459 ERR_NOSUCHSERVER */
-        {nullptr, true}}},
-      {"USERS",
-       {
-        {"265", false},
-        {"266", true},
-        {"392", false}, /* rfc1459 RPL_USERSSTART */
-        {"393", false}, /* rfc1459 RPL_USERS */
-        {"394", true},  /* rfc1459 RPL_ENDOFUSERS */
-        {"395", false}, /* rfc1459 RPL_NOUSERS */
-        {"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
-        {"424", true},  /* rfc1459 ERR_FILEERROR */
-        {"446", true},  /* rfc1459 ERR_USERSDISABLED */
-        {nullptr, true},
-       }},
-      {"METADATA",
-       {
-        {"761", false}, /* ircv3.2 RPL_KEYVALUE */
-        {"762", true},  /* ircv3.2 RPL_METADATAEND */
-        {"765", true},  /* ircv3.2 ERR_TARGETINVALID */
-        {"766", true},  /* ircv3.2 ERR_NOMATCHINGKEYS */
-        {"767", true},  /* ircv3.2 ERR_KEYINVALID */
-        {"768", true},  /* ircv3.2 ERR_KEYNOTSET */
-        {"769", true},  /* ircv3.2 ERR_KEYNOPERMISSION */
-        {nullptr, true},
-       }},
-      // This is just a list of all possible /mode replies stuffed together.
-      // Since there should never be more than one of these going on, this
-      // should work fine and makes the code simpler.
-      {"MODE",
-       {// "You're not a channel operator"
-        {"482", true},
-        // MODE I
-        {"346", false},
-        {"347", true},
-        // MODE b
-        {"367", false},
-        {"368", true},
-        // MODE e
-        {"348", false},
-        {"349", true},
-        {"467", true}, /* rfc1459 ERR_KEYSET */
-        {"472", true}, /* rfc1459 ERR_UNKNOWNMODE */
-        {"501", true}, /* rfc1459 ERR_UMODEUNKNOWNFLAG */
-        {"502", true}, /* rfc1459 ERR_USERSDONTMATCH */
-        {nullptr, true},
-       }},
-      // END (last item!)
-      {nullptr, {{nullptr, true}}}};
+    {"WHO",
+     {{"402", true},   /* rfc1459 ERR_NOSUCHSERVER */
+      {"352", false},  /* rfc1459 RPL_WHOREPLY */
+      {"315", true},   /* rfc1459 RPL_ENDOFWHO */
+      {"354", false},  // e.g. Quaknet uses this for WHO #chan %n
+      {"403", true},   // No such chan
+      {nullptr, true}}},
+    {"LIST",
+     {{"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
+      {"321", false}, /* rfc1459 RPL_LISTSTART */
+      {"322", false}, /* rfc1459 RPL_LIST */
+      {"323", true},  /* rfc1459 RPL_LISTEND */
+      {nullptr, true}}},
+    {"NAMES",
+     {
+         {"353", false}, /* rfc1459 RPL_NAMREPLY */
+         {"366", true},  /* rfc1459 RPL_ENDOFNAMES */
+         // No such nick/channel
+         {"401", true},
+         {nullptr, true},
+     }},
+    {"LUSERS",
+     {{"251", false}, /* rfc1459 RPL_LUSERCLIENT */
+      {"252", false}, /* rfc1459 RPL_LUSEROP */
+      {"253", false}, /* rfc1459 RPL_LUSERUNKNOWN */
+      {"254", false}, /* rfc1459 RPL_LUSERCHANNELS */
+      {"255", false}, /* rfc1459 RPL_LUSERME */
+      {"265", false},
+      {"266", true},
+      // We don't handle 250 here since some IRCds don't sent it
+      //{"250", true},
+      {nullptr, true}}},
+    {"WHOIS",
+     {{"311", false}, /* rfc1459 RPL_WHOISUSER */
+      {"312", false}, /* rfc1459 RPL_WHOISSERVER */
+      {"313", false}, /* rfc1459 RPL_WHOISOPERATOR */
+      {"317", false}, /* rfc1459 RPL_WHOISIDLE */
+      {"319", false}, /* rfc1459 RPL_WHOISCHANNELS */
+      {"301", false}, /* rfc1459 RPL_AWAY */
+      {"276", false}, /* oftc-hybrid RPL_WHOISCERTFP */
+      {"330", false}, /* ratbox RPL_WHOISLOGGEDIN
+                         aka ircu RPL_WHOISACCOUNT */
+      {"338", false}, /* RPL_WHOISACTUALLY -- "actually using host" */
+      {"378", false}, /* RPL_WHOISHOST -- real address of vhosts */
+      {"671", false}, /* RPL_WHOISSECURE */
+      {"307", false}, /* RPL_WHOISREGNICK */
+      {"379", false}, /* RPL_WHOISMODES */
+      {"760", false}, /* ircv3.2 RPL_WHOISKEYVALUE */
+      {"318", true},  /* rfc1459 RPL_ENDOFWHOIS */
+      {"401", true},  /* rfc1459 ERR_NOSUCHNICK */
+      {"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
+      {"431", true},  /* rfc1459 ERR_NONICKNAMEGIVEN */
+      {nullptr, true}}},
+    {"PING",
+     {{"PONG", true},
+      {"402", true}, /* rfc1459 ERR_NOSUCHSERVER */
+      {"409", true}, /* rfc1459 ERR_NOORIGIN */
+      {nullptr, true}}},
+    {"USERHOST",
+     {{"302", true},
+      {"461", true}, /* rfc1459 ERR_NEEDMOREPARAMS */
+      {nullptr, true}}},
+    {"TIME",
+     {{"391", true}, /* rfc1459 RPL_TIME */
+      {"402", true}, /* rfc1459 ERR_NOSUCHSERVER */
+      {nullptr, true}}},
+    {"WHOWAS",
+     {{"406", false}, /* rfc1459 ERR_WASNOSUCHNICK */
+      {"312", false}, /* rfc1459 RPL_WHOISSERVER */
+      {"314", false}, /* rfc1459 RPL_WHOWASUSER */
+      {"369", true},  /* rfc1459 RPL_ENDOFWHOWAS */
+      {"431", true},  /* rfc1459 ERR_NONICKNAMEGIVEN */
+      {nullptr, true}}},
+    {"ISON",
+     {{"303", true}, /* rfc1459 RPL_ISON */
+      {"461", true}, /* rfc1459 ERR_NEEDMOREPARAMS */
+      {nullptr, true}}},
+    {"LINKS",
+     {{"364", false}, /* rfc1459 RPL_LINKS */
+      {"365", true},  /* rfc1459 RPL_ENDOFLINKS */
+      {"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
+      {nullptr, true}}},
+    {"MAP",
+     {{"006", false},
+      // inspircd
+      {"270", false},
+      // SilverLeo wants this two added
+      {"015", false},
+      {"017", true},
+      {"007", true},
+      {"481", true}, /* rfc1459 ERR_NOPRIVILEGES */
+      {nullptr, true}}},
+    {"TRACE",
+     {{"200", false}, /* rfc1459 RPL_TRACELINK */
+      {"201", false}, /* rfc1459 RPL_TRACECONNECTING */
+      {"202", false}, /* rfc1459 RPL_TRACEHANDSHAKE */
+      {"203", false}, /* rfc1459 RPL_TRACEUNKNOWN */
+      {"204", false}, /* rfc1459 RPL_TRACEOPERATOR */
+      {"205", false}, /* rfc1459 RPL_TRACEUSER */
+      {"206", false}, /* rfc1459 RPL_TRACESERVER */
+      {"208", false}, /* rfc1459 RPL_TRACENEWTYPE */
+      {"261", false}, /* rfc1459 RPL_TRACELOG */
+      {"262", true},
+      {"402", true}, /* rfc1459 ERR_NOSUCHSERVER */
+      {nullptr, true}}},
+    {"USERS",
+     {
+         {"265", false},
+         {"266", true},
+         {"392", false}, /* rfc1459 RPL_USERSSTART */
+         {"393", false}, /* rfc1459 RPL_USERS */
+         {"394", true},  /* rfc1459 RPL_ENDOFUSERS */
+         {"395", false}, /* rfc1459 RPL_NOUSERS */
+         {"402", true},  /* rfc1459 ERR_NOSUCHSERVER */
+         {"424", true},  /* rfc1459 ERR_FILEERROR */
+         {"446", true},  /* rfc1459 ERR_USERSDISABLED */
+         {nullptr, true},
+     }},
+    {"METADATA",
+     {
+         {"761", false}, /* ircv3.2 RPL_KEYVALUE */
+         {"762", true},  /* ircv3.2 RPL_METADATAEND */
+         {"765", true},  /* ircv3.2 ERR_TARGETINVALID */
+         {"766", true},  /* ircv3.2 ERR_NOMATCHINGKEYS */
+         {"767", true},  /* ircv3.2 ERR_KEYINVALID */
+         {"768", true},  /* ircv3.2 ERR_KEYNOTSET */
+         {"769", true},  /* ircv3.2 ERR_KEYNOPERMISSION */
+         {nullptr, true},
+     }},
+    // This is just a list of all possible /mode replies stuffed together.
+    // Since there should never be more than one of these going on, this
+    // should work fine and makes the code simpler.
+    {"MODE",
+     {
+         // "You're not a channel operator"
+         {"482", true},
+         // MODE I
+         {"346", false},
+         {"347", true},
+         // MODE b
+         {"367", false},
+         {"368", true},
+         // MODE e
+         {"348", false},
+         {"349", true},
+         {"467", true}, /* rfc1459 ERR_KEYSET */
+         {"472", true}, /* rfc1459 ERR_UNKNOWNMODE */
+         {"501", true}, /* rfc1459 ERR_UMODEUNKNOWNFLAG */
+         {"502", true}, /* rfc1459 ERR_USERSDONTMATCH */
+         {nullptr, true},
+     }},
+    // END (last item!)
+    {nullptr, {{nullptr, true}}}};
 
 class CRouteTimeout : public CTimer {
   public:

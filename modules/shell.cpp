@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
+#include <znc/ExecSock.h>
 #include <znc/FileUtils.h>
 #include <znc/User.h>
 #include <znc/znc.h>
-#include <znc/ExecSock.h>
 
 using std::vector;
 

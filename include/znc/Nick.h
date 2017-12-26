@@ -17,8 +17,8 @@
 #ifndef ZNC_NICK_H
 #define ZNC_NICK_H
 
-#include <znc/zncconfig.h>
 #include <znc/ZNCString.h>
+#include <znc/zncconfig.h>
 #include <vector>
 
 // Forward Decl

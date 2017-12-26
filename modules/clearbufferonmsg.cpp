@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-#include <znc/IRCNetwork.h>
-#include <znc/User.h>
 #include <znc/Chan.h>
+#include <znc/IRCNetwork.h>
 #include <znc/Query.h>
+#include <znc/User.h>
 
 using std::vector;
 
@@ -112,14 +112,11 @@ class CClearBufferOnMsgMod : public CModule {
             CString sName;
             int Index;
         } Names[RULE_MAX] = {
-              {"msg", RULE_MSG},
-              {"ctcp", RULE_CTCP},
-              {"action", RULE_ACTION},
-              {"notice", RULE_NOTICE},
-              {"part", RULE_PART},
-              {"topic", RULE_TOPIC},
-              {"quit", RULE_QUIT},
-          };
+            {"msg", RULE_MSG},       {"ctcp", RULE_CTCP},
+            {"action", RULE_ACTION}, {"notice", RULE_NOTICE},
+            {"part", RULE_PART},     {"topic", RULE_TOPIC},
+            {"quit", RULE_QUIT},
+        };
 
         if (sOpt.Equals("all")) {
             SetAllRules(bVal);

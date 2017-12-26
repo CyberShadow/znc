@@ -18,14 +18,14 @@
 #define IRCTEST_H
 
 #include <gtest/gtest.h>
+#include <znc/Chan.h>
+#include <znc/Client.h>
+#include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
 #include <znc/Modules.h>
-#include <znc/IRCNetwork.h>
-#include <znc/Client.h>
 #include <znc/User.h>
-#include <znc/Chan.h>
-#include <znc/znc.h>
 #include <znc/ZNCDebug.h>
+#include <znc/znc.h>
 
 class TestClient : public CClient {
   public:

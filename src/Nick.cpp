@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-#include <znc/Nick.h>
 #include <znc/Chan.h>
-#include <znc/IRCSock.h>
 #include <znc/IRCNetwork.h>
+#include <znc/IRCSock.h>
+#include <znc/Nick.h>
 
-using std::vector;
 using std::map;
+using std::vector;
 
 CNick::CNick()
     : m_sChanPerms(""),

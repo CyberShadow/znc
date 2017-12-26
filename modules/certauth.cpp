@@ -20,9 +20,9 @@
 #include <znc/znc.h>
 
 using std::map;
-using std::vector;
-using std::set;
 using std::pair;
+using std::set;
+using std::vector;
 
 class CSSLClientCertMod : public CModule {
   public:

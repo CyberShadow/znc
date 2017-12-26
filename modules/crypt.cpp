@@ -457,7 +457,9 @@ class CCryptMod : public CModule {
             if (DH1080_gen()) {
                 PutIRC("NOTICE " + sTarget + " :DH1080_INIT " + m_sPubKey +
                        "A");
-                PutModule(t_f("Sent my DH1080 public key to {1}, waiting for reply ...")(sTarget));
+                PutModule(t_f(
+                    "Sent my DH1080 public key to {1}, waiting for reply ...")(
+                    sTarget));
             } else {
                 PutModule(t_s("Error generating our keys, nothing sent."));
             }

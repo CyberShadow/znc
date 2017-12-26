@@ -17,8 +17,8 @@
 #ifndef ZNC_MAIN_H
 #define ZNC_MAIN_H
 
-#include <znc/zncconfig.h>
 #include <znc/version.h>
+#include <znc/zncconfig.h>
 
 extern bool ZNC_NO_NEED_TO_DO_ANYTHING_ON_MODULE_CALL_EXITER;
 #define NOTHING &ZNC_NO_NEED_TO_DO_ANYTHING_ON_MODULE_CALL_EXITER

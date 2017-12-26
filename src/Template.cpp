@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#include <znc/Template.h>
 #include <znc/FileUtils.h>
-#include <znc/ZNCDebug.h>
+#include <znc/Template.h>
 #include <znc/Translation.h>
+#include <znc/ZNCDebug.h>
 #include <algorithm>
 
-using std::stringstream;
-using std::vector;
 using std::list;
+using std::map;
 using std::ostream;
 using std::pair;
-using std::map;
+using std::stringstream;
+using std::vector;
 
 void CTemplateOptions::Parse(const CString& sLine) {
     CString sName = sLine.Token(0, false, "=").Trim_n().AsUpper();
@@ -499,8 +499,8 @@ bool CTemplate::Print(const CString& sFileName, ostream& oOut) {
                                 } else if (sArgs.Token(1)
                                                .TrimPrefix_n("SORT")
                                                .StartsWith("DESC=")) {
-                                    sKey = sArgs.Token(1)
-                                               .TrimPrefix_n("SORTDESC=");
+                                    sKey = sArgs.Token(1).TrimPrefix_n(
+                                        "SORTDESC=");
                                     bReverse = true;
                                 }
 
@@ -930,10 +930,9 @@ CString CTemplate::GetValue(const CString& sArgs, bool bFromIf) {
             for (const auto& spTagHandler : vspTagHandlers) {
                 CString sCustomOutput;
 
-                if (!bFromIf &&
-                    spTagHandler->HandleVar(*pTmpl, sArgs.Token(0),
-                                            sArgs.Token(1, true),
-                                            sCustomOutput)) {
+                if (!bFromIf && spTagHandler->HandleVar(*pTmpl, sArgs.Token(0),
+                                                        sArgs.Token(1, true),
+                                                        sCustomOutput)) {
                     sRet = sCustomOutput;
                     break;
                 } else if (bFromIf &&

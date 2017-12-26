@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-#include <znc/FileUtils.h>
-#include <znc/ExecSock.h>
-#include <znc/Utils.h>
 #include <fcntl.h>
 #include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <znc/ExecSock.h>
+#include <znc/FileUtils.h>
+#include <znc/Utils.h>
 
 #ifndef HAVE_LSTAT
 #define lstat(a, b) stat(a, b)

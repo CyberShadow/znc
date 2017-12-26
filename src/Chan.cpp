@@ -15,16 +15,16 @@
  */
 
 #include <znc/Chan.h>
-#include <znc/IRCSock.h>
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
 #include <znc/Config.h>
-#include <znc/znc.h>
+#include <znc/IRCNetwork.h>
+#include <znc/IRCSock.h>
 #include <znc/Message.h>
+#include <znc/User.h>
+#include <znc/znc.h>
 
+using std::map;
 using std::set;
 using std::vector;
-using std::map;
 
 CChan::CChan(const CString& sName, CIRCNetwork* pNetwork, bool bInConfig,
              CConfig* pConfig)

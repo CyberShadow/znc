@@ -1,9 +1,12 @@
-// This file uses code from http://www.gnu.org/software/autoconf-archive/ax_cxx_compile_stdcxx_11.html (serial 5)
+// This file uses code from
+// http://www.gnu.org/software/autoconf-archive/ax_cxx_compile_stdcxx_11.html
+// (serial 5)
 
 // Copyright (c) 2008 Benjamin Kosnik <bkoz@redhat.com>
 // Copyright (c) 2012 Zack Weinberg <zackw@panix.com>
 // Copyright (c) 2013 Roy Stogner <roystgnr@ices.utexas.edu>
-// Copyright (c) 2014, 2015 Google Inc.; contributed by Alexey Sokolov <sokolov@google.com>
+// Copyright (c) 2014, 2015 Google Inc.; contributed by Alexey Sokolov
+// <sokolov@google.com>
 //
 // Copying and distribution of this file, with or without modification, are
 // permitted in any medium without royalty provided the copyright notice
@@ -54,7 +57,7 @@ void func(member<T>*) {}
 void test();
 
 void test() { func<foo>(0); }
-}
+}  // namespace test_template_alias_sfinae
 
 int main() {
     std::map<int, int> m;

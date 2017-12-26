@@ -17,15 +17,15 @@
 #ifndef ZNC_UTILS_H
 #define ZNC_UTILS_H
 
-#include <znc/zncconfig.h>
-#include <znc/ZNCString.h>
 #include <assert.h>
-#include <cstdio>
 #include <fcntl.h>
-#include <map>
 #include <sys/file.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <znc/ZNCString.h>
+#include <znc/zncconfig.h>
+#include <cstdio>
+#include <map>
 #include <vector>
 
 static inline void SetFdCloseOnExec(int fd) {
@@ -127,7 +127,6 @@ class CException {
     EType m_eType;
 };
 
-
 /** Generate a grid-like output from a given input.
  *
  *  @code
@@ -225,7 +224,8 @@ class CBlowfish {
     /**
      * @param sPassword key to encrypt with
      * @param iEncrypt encrypt method (BF_DECRYPT or BF_ENCRYPT)
-     * @param sIvec what to set the ivector to start with, default sets it all 0's
+     * @param sIvec what to set the ivector to start with, default sets it all
+     * 0's
      */
     CBlowfish(const CString& sPassword, int iEncrypt,
               const CString& sIvec = "");
@@ -259,7 +259,8 @@ class CBlowfish {
 /**
  * @class TCacheMap
  * @author prozac <prozac@rottenboy.com>
- * @brief Insert an object with a time-to-live and check later if it still exists
+ * @brief Insert an object with a time-to-live and check later if it still
+ * exists
  */
 template <typename K, typename V = bool>
 class TCacheMap {
@@ -269,27 +270,31 @@ class TCacheMap {
     virtual ~TCacheMap() {}
 
     /**
-     * @brief This function adds an item to the cache using the default time-to-live value
+     * @brief This function adds an item to the cache using the default
+     * time-to-live value
      * @param Item the item to add to the cache
      */
     void AddItem(const K& Item) { AddItem(Item, m_uTTL); }
 
     /**
-     * @brief This function adds an item to the cache using a custom time-to-live value
+     * @brief This function adds an item to the cache using a custom
+     * time-to-live value
      * @param Item the item to add to the cache
      * @param uTTL the time-to-live for this specific item
      */
     void AddItem(const K& Item, unsigned int uTTL) { AddItem(Item, V(), uTTL); }
 
     /**
-     * @brief This function adds an item to the cache using the default time-to-live value
+     * @brief This function adds an item to the cache using the default
+     * time-to-live value
      * @param Item the item to add to the cache
      * @param Val The value associated with the key Item
      */
     void AddItem(const K& Item, const V& Val) { AddItem(Item, Val, m_uTTL); }
 
     /**
-     * @brief This function adds an item to the cache using a custom time-to-live value
+     * @brief This function adds an item to the cache using a custom
+     * time-to-live value
      * @param Item the item to add to the cache
      * @param Val The value associated with the key Item
      * @param uTTL the time-to-live for this specific item
@@ -316,7 +321,8 @@ class TCacheMap {
     }
 
     /**
-     * @brief Performs a Cleanup() and returns a pointer to the object, or nullptr
+     * @brief Performs a Cleanup() and returns a pointer to the object, or
+     * nullptr
      * @param Item The item to check for
      * @return Pointer to the item or nullptr if there is no suitable one
      */

@@ -53,8 +53,9 @@ class CSASLMod : public CModule {
     } SupportedMechanisms[2] = {
         {"EXTERNAL", t_d("TLS certificate, for use with the *cert module"),
          true},
-        {"PLAIN", t_d("Plain text negotiation, this should work always if the "
-                      "network supports SASL"),
+        {"PLAIN",
+         t_d("Plain text negotiation, this should work always if the "
+             "network supports SASL"),
          true}};
 
   public:
@@ -248,8 +249,7 @@ class CSASLMod : public CModule {
             m_bAuthenticated = true;
             DEBUG("sasl: Authenticated with mechanism ["
                   << m_Mechanisms.GetCurrent() << "]");
-        } else if (msg.GetCode() == 904 ||
-                   msg.GetCode() == 905) {
+        } else if (msg.GetCode() == 904 || msg.GetCode() == 905) {
             DEBUG("sasl: Mechanism [" << m_Mechanisms.GetCurrent()
                                       << "] failed.");
             if (m_bVerbose) {

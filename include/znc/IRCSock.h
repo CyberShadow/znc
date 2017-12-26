@@ -17,10 +17,10 @@
 #ifndef ZNC_IRCSOCK_H
 #define ZNC_IRCSOCK_H
 
-#include <znc/zncconfig.h>
-#include <znc/Socket.h>
-#include <znc/Nick.h>
 #include <znc/Message.h>
+#include <znc/Nick.h>
+#include <znc/Socket.h>
+#include <znc/zncconfig.h>
 
 #include <deque>
 

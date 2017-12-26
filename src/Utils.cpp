@@ -21,34 +21,34 @@
 #endif
 #endif
 
-#include <znc/Utils.h>
-#include <znc/ZNCDebug.h>
 #include <znc/FileUtils.h>
 #include <znc/Message.h>
+#include <znc/Utils.h>
+#include <znc/ZNCDebug.h>
 #ifdef HAVE_LIBSSL
 #include <openssl/ssl.h>
 #include <memory>
 #endif /* HAVE_LIBSSL */
-#include <unistd.h>
 #include <time.h>
+#include <unistd.h>
 
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/types.h>
 
 #ifdef HAVE_TCSETATTR
 #include <termios.h>
 #endif
 
 #ifdef HAVE_ICU
-#include <unicode/ucnv.h>
 #include <unicode/errorcode.h>
+#include <unicode/ucnv.h>
 #endif
 
 // Required with GCC 4.3+ if openssl is disabled
-#include <cstring>
 #include <cstdlib>
+#include <cstring>
 #include <iomanip>
 
 using std::map;
@@ -370,8 +370,9 @@ void CUtils::PrintStatus(bool bSuccess, const CString& sMessage) {
                         BOLD BLU "[" GRN " >> " BLU "]" DFL NORM " %s\n",
                         sMessage.c_str());
         } else {
-            fprintf(stdout, BOLD BLU "[" RED " !! " BLU "]" DFL NORM BOLD RED
-                                     " %s" DFL NORM "\n",
+            fprintf(stdout,
+                    BOLD BLU "[" RED " !! " BLU "]" DFL NORM BOLD RED
+                             " %s" DFL NORM "\n",
                     sMessage.empty() ? "failed" : sMessage.c_str());
         }
     } else {
@@ -416,7 +417,7 @@ timeval CUtils::GetTime() {
 #ifdef HAVE_CLOCK_GETTIME
     timespec ts;
     if (clock_gettime(CLOCK_REALTIME, &ts) == 0) {
-        return { ts.tv_sec, static_cast<suseconds_t>(ts.tv_nsec / 1000) };
+        return {ts.tv_sec, static_cast<suseconds_t>(ts.tv_nsec / 1000)};
     }
 #endif
 
@@ -426,7 +427,7 @@ timeval CUtils::GetTime() {
     }
 
     // Last resort, no microseconds
-    return { time(nullptr), 0 };
+    return {time(nullptr), 0};
 }
 
 unsigned long long CUtils::GetMillTime() {
@@ -520,19 +521,26 @@ CString CUtils::FormatTime(const timeval& tv, const CString& sFormat,
             }
         } else {
             switch (sFormat[i]) {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
                     iDigits = sFormat[i] - '0';
                     break;
                 case 'f': {
                     int iVal = tv.tv_usec;
-                    int iDigitDelta = iDigits - 6; // tv_user is in 10^-6 seconds
-                    for (; iDigitDelta > 0; iDigitDelta--)
-                        iVal *= 10;
-                    for (; iDigitDelta < 0; iDigitDelta++)
-                        iVal /= 10;
-                    sFormat2 += sFormat.substr(uLastCopied,
-                        uFormatStart - uLastCopied);
+                    int iDigitDelta =
+                        iDigits - 6;  // tv_user is in 10^-6 seconds
+                    for (; iDigitDelta > 0; iDigitDelta--) iVal *= 10;
+                    for (; iDigitDelta < 0; iDigitDelta++) iVal /= 10;
+                    sFormat2 +=
+                        sFormat.substr(uLastCopied, uFormatStart - uLastCopied);
                     CString sVal = CString(iVal);
                     sFormat2 += CString(iDigits - sVal.length(), '0');
                     sFormat2 += sVal;

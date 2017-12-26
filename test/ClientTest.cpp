@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
 #include "IRCTest.h"
 
-using ::testing::IsEmpty;
 using ::testing::ElementsAre;
+using ::testing::IsEmpty;
 
 class ClientTest : public IRCTest {
   protected:
@@ -190,10 +190,12 @@ TEST_F(ClientTest, StatusMsg) {
 
 TEST_F(ClientTest, TagSupport) {
     m_pTestClient->SetTagSupport("test-tag", true);
-    CMessage tagmsg("@test-tag=yes;invalid-tag=no :nick!user@host PRIVMSG #chan :text");
+    CMessage tagmsg(
+        "@test-tag=yes;invalid-tag=no :nick!user@host PRIVMSG #chan :text");
     m_pTestClient->PutClient(tagmsg);
 
-    EXPECT_THAT(m_pTestClient->vsLines,
+    EXPECT_THAT(
+        m_pTestClient->vsLines,
         ElementsAre("@test-tag=yes :nick!user@host PRIVMSG #chan :text"));
 
     m_pTestClient->Reset();
@@ -201,7 +203,7 @@ TEST_F(ClientTest, TagSupport) {
     m_pTestClient->PutClient(tagmsg);
 
     EXPECT_THAT(m_pTestClient->vsLines,
-        ElementsAre(":nick!user@host PRIVMSG #chan :text"));
+                ElementsAre(":nick!user@host PRIVMSG #chan :text"));
 }
 
 TEST_F(ClientTest, OnUserCTCPReplyMessage) {
@@ -368,7 +370,8 @@ TEST_F(ClientTest, OnSendToClientMessage) {
 
     EXPECT_THAT(m_pTestModule->vsHooks, ElementsAre("OnSendToClientMessage"));
     EXPECT_THAT(m_pTestModule->vsMessages, ElementsAre(msg.ToString()));
-    EXPECT_THAT(m_pTestModule->vNetworks, ElementsAre(m_pTestClient->GetNetwork()));
+    EXPECT_THAT(m_pTestModule->vNetworks,
+                ElementsAre(m_pTestClient->GetNetwork()));
     EXPECT_THAT(m_pTestModule->vClients, ElementsAre(m_pTestClient));
     EXPECT_THAT(m_pTestModule->vChannels, ElementsAre(nullptr));
     EXPECT_THAT(m_pTestSock->vsLines, IsEmpty());  // halt

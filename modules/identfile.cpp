@@ -15,9 +15,9 @@
  */
 
 #include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
 #include <znc/User.h>
-#include <znc/IRCNetwork.h>
 
 class CIdentFileModule : public CModule {
     CString m_sOrigISpoof;
@@ -141,10 +141,9 @@ class CIdentFileModule : public CModule {
 
     void ReleaseISpoof() {
         DEBUG("Releasing ident spoof for user/network [" +
-              (m_pIRCSock
-                   ? m_pIRCSock->GetNetwork()->GetUser()->GetUserName() + "/" +
-                         m_pIRCSock->GetNetwork()->GetName()
-                   : "<no user/network>") +
+              (m_pIRCSock ? m_pIRCSock->GetNetwork()->GetUser()->GetUserName() +
+                                "/" + m_pIRCSock->GetNetwork()->GetName()
+                          : "<no user/network>") +
               "]");
 
         SetIRCSock(nullptr);

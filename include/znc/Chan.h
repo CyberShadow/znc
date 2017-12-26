@@ -17,10 +17,10 @@
 #ifndef ZNC_CHAN_H
 #define ZNC_CHAN_H
 
-#include <znc/zncconfig.h>
+#include <znc/Buffer.h>
 #include <znc/Nick.h>
 #include <znc/ZNCString.h>
-#include <znc/Buffer.h>
+#include <znc/zncconfig.h>
 #include <map>
 
 // Forward Declarations

@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#include <znc/IRCSock.h>
-#include <znc/Chan.h>
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
-#include <znc/Server.h>
-#include <znc/Query.h>
-#include <znc/ZNCDebug.h>
 #include <time.h>
+#include <znc/Chan.h>
+#include <znc/IRCNetwork.h>
+#include <znc/IRCSock.h>
+#include <znc/Query.h>
+#include <znc/Server.h>
+#include <znc/User.h>
+#include <znc/ZNCDebug.h>
 
+using std::map;
 using std::set;
 using std::vector;
-using std::map;
 
 #define IRCSOCKMODULECALL(macFUNC, macEXITER)                              \
     NETWORKMODULECALL(macFUNC, m_pNetwork->GetUser(), m_pNetwork, nullptr, \
@@ -842,7 +842,8 @@ bool CIRCSock::OnNumericMessage(CNumericMessage& Message) {
             break;
         }
         case 352: {  // WHO
-            // :irc.yourserver.com 352 yournick #chan ident theirhost.com irc.theirserver.com theirnick H :0 Real Name
+            // :irc.yourserver.com 352 yournick #chan ident theirhost.com
+            // irc.theirserver.com theirnick H :0 Real Name
             sNick = Message.GetParam(5);
             CString sChan = Message.GetParam(1);
             CString sIdent = Message.GetParam(2);
@@ -931,9 +932,10 @@ bool CIRCSock::OnNumericMessage(CNumericMessage& Message) {
             }
             break;
         case 437:
-            // :irc.server.net 437 * badnick :Nick/channel is temporarily unavailable
-            // :irc.server.net 437 mynick badnick :Nick/channel is temporarily unavailable
-            // :irc.server.net 437 mynick badnick :Cannot change nickname while banned on channel
+            // :irc.server.net 437 * badnick :Nick/channel is temporarily
+            // unavailable :irc.server.net 437 mynick badnick :Nick/channel is
+            // temporarily unavailable :irc.server.net 437 mynick badnick
+            // :Cannot change nickname while banned on channel
             if (m_pNetwork->IsChan(Message.GetParam(1)) || sNick != "*") break;
         case 432:
         // :irc.server.com 432 * nick :Erroneous Nickname: Illegal chars
@@ -948,12 +950,14 @@ bool CIRCSock::OnNumericMessage(CNumericMessage& Message) {
         }
         case 451:
             // :irc.server.com 451 CAP :You have not registered
-            // Servers that don't support CAP will give us this error, don't send
-            // it to the client
+            // Servers that don't support CAP will give us this error, don't
+            // send it to the client
             if (sNick.Equals("CAP")) return true;
         case 470: {
-            // :irc.unreal.net 470 mynick [Link] #chan1 has become full, so you are automatically being transferred to the linked channel #chan2
-            // :mccaffrey.freenode.net 470 mynick #electronics ##electronics :Forwarding to another channel
+            // :irc.unreal.net 470 mynick [Link] #chan1 has become full, so you
+            // are automatically being transferred to the linked channel #chan2
+            // :mccaffrey.freenode.net 470 mynick #electronics ##electronics
+            // :Forwarding to another channel
 
             // freenode style numeric
             CChan* pChan = m_pNetwork->FindChan(Message.GetParam(1));
@@ -970,7 +974,8 @@ bool CIRCSock::OnNumericMessage(CNumericMessage& Message) {
             break;
         }
         case 670:
-            // :hydra.sector5d.org 670 kylef :STARTTLS successful, go ahead with TLS handshake
+            // :hydra.sector5d.org 670 kylef :STARTTLS successful, go ahead with
+            // TLS handshake
             //
             // 670 is a response to `STARTTLS` telling the client to switch to
             // TLS
@@ -1171,8 +1176,8 @@ void CIRCSock::TrySend() {
             IRCSOCKMODULECALL(OnSendToIRC(sCopy), &bSkip);
             if (!bSkip) {
                 DEBUG("(" << m_pNetwork->GetUser()->GetUserName() << "/"
-                        << m_pNetwork->GetName() << ") ZNC -> IRC ["
-                        << CDebug::Filter(sCopy) << "]");
+                          << m_pNetwork->GetName() << ") ZNC -> IRC ["
+                          << CDebug::Filter(sCopy) << "]");
                 Write(sCopy + "\r\n");
             }
         }
@@ -1205,8 +1210,8 @@ void CIRCSock::Connected() {
     }
 
     PutIRC("NICK " + sNick);
-    PutIRC("USER " + sIdent + " \"" + sIdent + "\" \"" + sIdent + "\" :" +
-           sRealName);
+    PutIRC("USER " + sIdent + " \"" + sIdent + "\" \"" + sIdent +
+           "\" :" + sRealName);
 
     // SendAltNick() needs this
     m_Nick.SetNick(sNick);

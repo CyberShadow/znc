@@ -14,29 +14,29 @@
  * limitations under the License.
  */
 
-#include <znc/IRCNetwork.h>
-#include <znc/User.h>
-#include <znc/FileUtils.h>
-#include <znc/Config.h>
-#include <znc/IRCSock.h>
-#include <znc/Server.h>
 #include <znc/Chan.h>
-#include <znc/Query.h>
+#include <znc/Config.h>
+#include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
+#include <znc/IRCSock.h>
 #include <znc/Message.h>
+#include <znc/Query.h>
+#include <znc/Server.h>
+#include <znc/User.h>
 #include <znc/ZNCDebug.h>
 #include <algorithm>
 #include <memory>
 
-using std::vector;
 using std::set;
+using std::vector;
 
 class CIRCNetworkPingTimer : public CCron {
   public:
     CIRCNetworkPingTimer(CIRCNetwork* pNetwork)
         : CCron(), m_pNetwork(pNetwork) {
-        SetName("CIRCNetworkPingTimer::" +
-                m_pNetwork->GetUser()->GetUserName() + "::" +
-                m_pNetwork->GetName());
+        SetName(
+            "CIRCNetworkPingTimer::" + m_pNetwork->GetUser()->GetUserName() +
+            "::" + m_pNetwork->GetName());
         Start(m_pNetwork->GetUser()->GetPingSlack());
     }
 
@@ -77,9 +77,9 @@ class CIRCNetworkJoinTimer : public CCron {
   public:
     CIRCNetworkJoinTimer(CIRCNetwork* pNetwork)
         : CCron(), m_bDelayed(false), m_pNetwork(pNetwork) {
-        SetName("CIRCNetworkJoinTimer::" +
-                m_pNetwork->GetUser()->GetUserName() + "::" +
-                m_pNetwork->GetName());
+        SetName(
+            "CIRCNetworkJoinTimer::" + m_pNetwork->GetUser()->GetUserName() +
+            "::" + m_pNetwork->GetName());
         Start(JOIN_FREQUENCY);
     }
 
@@ -727,7 +727,8 @@ void CIRCNetwork::ClientConnected(CClient* pClient) {
             "Use 'connect' to reconnect.");
 
     if (CDebug::Debug()) {
-        pClient->PutStatus("ZNC is presently running in DEBUG mode. Sensitive"
+        pClient->PutStatus(
+            "ZNC is presently running in DEBUG mode. Sensitive"
             " data during your current session may be exposed to the host.");
     }
 }

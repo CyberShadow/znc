@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
+#include <math.h>
+#include <time.h>
+#include <znc/Chan.h>
 #include <znc/Config.h>
 #include <znc/FileUtils.h>
 #include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
-#include <znc/Chan.h>
 #include <znc/Query.h>
-#include <math.h>
-#include <time.h>
+#include <znc/User.h>
 #include <algorithm>
 
-using std::vector;
 using std::set;
+using std::vector;
 
 class CUserTimer : public CCron {
   public:
@@ -1016,7 +1016,7 @@ CConfig CUser::ToConfig() const {
 }
 
 bool CUser::CheckPass(const CString& sPass) const {
-    if(AuthOnlyViaModule() || CZNC::Get().GetAuthOnlyViaModule()) {
+    if (AuthOnlyViaModule() || CZNC::Get().GetAuthOnlyViaModule()) {
         return false;
     }
 

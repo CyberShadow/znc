@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
 #include <znc/IRCNetwork.h>
+#include <znc/User.h>
 
 using std::set;
 
@@ -169,12 +169,15 @@ class CBounceDCCMod : public CModule {
                 sMessage.Token(1, false, " ", false, "\"", "\"", true);
             CString sFile =
                 sMessage.Token(2, false, " ", false, "\"", "\"", false);
-            unsigned long uLongIP = sMessage.Token(3, false, " ", false, "\"",
-                                                   "\"", true).ToULong();
-            unsigned short uPort = sMessage.Token(4, false, " ", false, "\"",
-                                                  "\"", true).ToUShort();
-            unsigned long uFileSize = sMessage.Token(5, false, " ", false, "\"",
-                                                     "\"", true).ToULong();
+            unsigned long uLongIP =
+                sMessage.Token(3, false, " ", false, "\"", "\"", true)
+                    .ToULong();
+            unsigned short uPort =
+                sMessage.Token(4, false, " ", false, "\"", "\"", true)
+                    .ToUShort();
+            unsigned long uFileSize =
+                sMessage.Token(5, false, " ", false, "\"", "\"", true)
+                    .ToULong();
             CString sIP = GetLocalDCCIP();
 
             if (!UseClientIP()) {
@@ -244,12 +247,15 @@ class CBounceDCCMod : public CModule {
                 sMessage.Token(1, false, " ", false, "\"", "\"", true);
             CString sFile =
                 sMessage.Token(2, false, " ", false, "\"", "\"", false);
-            unsigned long uLongIP = sMessage.Token(3, false, " ", false, "\"",
-                                                   "\"", true).ToULong();
-            unsigned short uPort = sMessage.Token(4, false, " ", false, "\"",
-                                                  "\"", true).ToUShort();
-            unsigned long uFileSize = sMessage.Token(5, false, " ", false, "\"",
-                                                     "\"", true).ToULong();
+            unsigned long uLongIP =
+                sMessage.Token(3, false, " ", false, "\"", "\"", true)
+                    .ToULong();
+            unsigned short uPort =
+                sMessage.Token(4, false, " ", false, "\"", "\"", true)
+                    .ToUShort();
+            unsigned long uFileSize =
+                sMessage.Token(5, false, " ", false, "\"", "\"", true)
+                    .ToULong();
 
             if (sType.Equals("CHAT")) {
                 CNick FromNick(Nick.GetNickMask());
@@ -395,7 +401,8 @@ void CDCCBounce::ReadData(const char* data, size_t len) {
 
         if (BufLen >= m_uiMaxDCCBuffer) {
             DEBUG(GetSockName() << " The send buffer is over the "
-                                   "limit (" << BufLen << "), throttling");
+                                   "limit ("
+                                << BufLen << "), throttling");
             PauseRead();
         }
     }
@@ -502,8 +509,8 @@ Csock* CDCCBounce::GetSockObj(const CString& sHost, unsigned short uPort) {
 
     CZNC::Get().GetManager().Connect(
         m_sConnectIP, m_uRemotePort,
-        "DCC::" + CString((m_bIsChat) ? "Chat" : "XFER") + "::Remote::" +
-            m_sRemoteNick,
+        "DCC::" + CString((m_bIsChat) ? "Chat" : "XFER") +
+            "::Remote::" + m_sRemoteNick,
         60, false, m_sLocalIP, pRemoteSock);
 
     pSock->SetSockName(GetSockName());

@@ -15,8 +15,8 @@
  */
 
 #include <znc/Chan.h>
-#include <znc/User.h>
 #include <znc/IRCNetwork.h>
+#include <znc/User.h>
 
 class CChanSaverMod : public CModule {
   public:

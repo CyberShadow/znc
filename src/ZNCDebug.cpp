@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#include <znc/ZNCDebug.h>
-#include <znc/Utils.h>
-#include <iostream>
-#include <sys/time.h>
 #include <stdio.h>
+#include <sys/time.h>
 #include <time.h>
+#include <znc/Utils.h>
+#include <znc/ZNCDebug.h>
+#include <iostream>
 
 bool CDebug::stdoutIsTTY = true;
 bool CDebug::debug = false;

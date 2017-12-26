@@ -23,14 +23,14 @@
 
 #include <znc/Utils.h>
 
+#include <pthread.h>
 #include <cerrno>
+#include <condition_variable>
 #include <csignal>
 #include <cstdlib>
 #include <cstring>
 #include <list>
-#include <pthread.h>
 #include <mutex>
-#include <condition_variable>
 
 /**
  * This class represents a non-recursive mutex. Only a single thread may own the

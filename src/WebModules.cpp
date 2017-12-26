@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#include <znc/WebModules.h>
-#include <znc/FileUtils.h>
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
-#include <znc/znc.h>
 #include <time.h>
+#include <znc/FileUtils.h>
+#include <znc/IRCNetwork.h>
+#include <znc/User.h>
+#include <znc/WebModules.h>
+#include <znc/znc.h>
 #include <algorithm>
 #include <sstream>
 
@@ -409,8 +409,9 @@ bool CWebSock::AddModLoop(const CString& sLoopName, CModule& Module,
 
     CString sTitle(Module.GetWebMenuTitle());
 
-    if (!sTitle.empty() && (IsLoggedIn() || (!Module.WebRequiresLogin() &&
-                                             !Module.WebRequiresAdmin())) &&
+    if (!sTitle.empty() &&
+        (IsLoggedIn() ||
+         (!Module.WebRequiresLogin() && !Module.WebRequiresAdmin())) &&
         (GetSession()->IsAdmin() || !Module.WebRequiresAdmin())) {
         CTemplate& Row = pTemplate->AddRow(sLoopName);
         bool bActiveModule = false;
@@ -647,9 +648,9 @@ CWebSock::EPageReqResult CWebSock::OnPageRequestInternal(const CString& sURI,
         return PAGE_DONE;
     }
 
-    // For pages *not provided* by modules, a CSRF check is performed which involves:
-    // Ensure that they really POSTed from one our forms by checking if they
-    // know the "secret" CSRF check value. Don't do this for login since
+    // For pages *not provided* by modules, a CSRF check is performed which
+    // involves: Ensure that they really POSTed from one our forms by checking
+    // if they know the "secret" CSRF check value. Don't do this for login since
     // CSRF against the login form makes no sense and the login form does a
     // cookies-enabled check which would break otherwise.
     // Don't do this, if user authenticated using http-basic auth, because:
@@ -810,10 +811,10 @@ CWebSock::EPageReqResult CWebSock::OnPageRequestInternal(const CString& sURI,
             !pModule->ValidateWebRequestCSRFCheck(*this, m_sPage)) {
             DEBUG("Expected _CSRF_Check: " << GetCSRFCheck());
             DEBUG("Actual _CSRF_Check:   " << GetParam("_CSRF_Check"));
-            PrintErrorPage(
-                403, "Access denied",
-                "POST requests need to send "
-                "a secret token to prevent cross-site request forgery attacks.");
+            PrintErrorPage(403, "Access denied",
+                           "POST requests need to send "
+                           "a secret token to prevent cross-site request "
+                           "forgery attacks.");
             return PAGE_DONE;
         }
 

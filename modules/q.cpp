@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
+#include <znc/Chan.h>
 #include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
-#include <znc/Chan.h>
+#include <znc/User.h>
 
 using std::set;
 
@@ -149,7 +149,7 @@ class CQModule : public CModule {
             Table2.AddColumn(t_s("Type"));
             Table2.AddColumn(t_s("Description"));
             Table2.AddRow();
-            Table2.SetCell(t_s("Setting"),"Username");
+            Table2.SetCell(t_s("Setting"), "Username");
             Table2.SetCell(t_s("Type"), t_s("String"));
             Table2.SetCell(t_s("Description"), t_s("Your Q username."));
             Table2.AddRow();

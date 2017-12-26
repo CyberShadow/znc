@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
-#include <znc/IRCNetwork.h>
 #include <time.h>
+#include <znc/IRCNetwork.h>
+#include <znc/User.h>
 
 #define SIMPLE_AWAY_DEFAULT_REASON "Auto away at %awaytime%"
 #define SIMPLE_AWAY_DEFAULT_TIME 60

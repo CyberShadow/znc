@@ -41,12 +41,10 @@ class CSampleWebAPIMod : public CModule {
         return true;
     }
 
-    bool WebRequiresLogin() override {
-        return false;
-    }
+    bool WebRequiresLogin() override { return false; }
 
     bool ValidateWebRequestCSRFCheck(CWebSock& WebSock,
-        const CString& sPageName) override {
+                                     const CString& sPageName) override {
         return true;
     }
 };

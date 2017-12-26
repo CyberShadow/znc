@@ -15,8 +15,8 @@
  */
 
 #include <gtest/gtest.h>
-#include <znc/Threads.h>
 #include <sys/select.h>
+#include <znc/Threads.h>
 
 class CWaitingJob : public CJob {
   public:

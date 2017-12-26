@@ -17,13 +17,13 @@
 #ifndef ZNC_CLIENT_H
 #define ZNC_CLIENT_H
 
-#include <znc/zncconfig.h>
+#include <znc/Message.h>
 #include <znc/Socket.h>
 #include <znc/Utils.h>
-#include <znc/Message.h>
 #include <znc/main.h>
-#include <memory>
+#include <znc/zncconfig.h>
 #include <functional>
+#include <memory>
 
 // Forward Declarations
 class CZNC;
@@ -134,14 +134,17 @@ class CClient : public CIRCSocket {
               {"echo-message",
                {false, [this](bool bVal) { m_bEchoMessage = bVal; }}},
               {"server-time",
-               {false, [this](bool bVal) {
-                m_bServerTime = bVal;
-                SetTagSupport("time", bVal);
-               }}},
-              {"batch", {false, [this](bool bVal) {
-                m_bBatch = bVal;
-                SetTagSupport("batch", bVal);
-              }}},
+               {false,
+                [this](bool bVal) {
+                    m_bServerTime = bVal;
+                    SetTagSupport("time", bVal);
+                }}},
+              {"batch",
+               {false,
+                [this](bool bVal) {
+                    m_bBatch = bVal;
+                    SetTagSupport("batch", bVal);
+                }}},
               {"cap-notify",
                {false, [this](bool bVal) { m_bCapNotify = bVal; }}},
               {"away-notify",
@@ -202,8 +205,9 @@ class CClient : public CIRCSocket {
     /** Sends a raw data line to the client.
      *  @param sLine The line to be sent.
      *
-     *  The line is first passed \e unmodified to the \ref CModule::OnSendToClient()
-     *  module hook. If no module halts the process, the line is then sent to the client.
+     *  The line is first passed \e unmodified to the \ref
+     * CModule::OnSendToClient() module hook. If no module halts the process,
+     * the line is then sent to the client.
      *
      *  These lines appear in the debug output in the following syntax:
      *  \code [time] (user/network) ZNC -> CLI [line] \endcode
@@ -232,8 +236,10 @@ class CClient : public CIRCSocket {
      *
      *  Message type | Capability
      *  ------------ | ----------
-     *  \c ACCOUNT   | \l CClient::HasAccountNotify() (<a href="http://ircv3.net/specs/extensions/account-notify-3.1.html">account-notify</a>)
-     *  \c AWAY      | \l CClient::HasAwayNotify() (<a href="http://ircv3.net/specs/extensions/away-notify-3.1.html">away-notify</a>)
+     *  \c ACCOUNT   | \l CClient::HasAccountNotify() (<a
+     * href="http://ircv3.net/specs/extensions/account-notify-3.1.html">account-notify</a>)
+     *  \c AWAY      | \l CClient::HasAwayNotify() (<a
+     * href="http://ircv3.net/specs/extensions/away-notify-3.1.html">away-notify</a>)
      *
      *  ### Message tags
      *
@@ -243,10 +249,13 @@ class CClient : public CIRCSocket {
      *
      *  Message tag | Capability
      *  ----------- | ----------
-     *  \c time     | \l CClient::HasServerTime() (<a href="http://ircv3.net/specs/extensions/server-time-3.2.html">server-time</a>)
-     *  \c batch    | \l CClient::HasBatch() (<a href="http://ircv3.net/specs/extensions/batch-3.2.html">batch</a>)
+     *  \c time     | \l CClient::HasServerTime() (<a
+     * href="http://ircv3.net/specs/extensions/server-time-3.2.html">server-time</a>)
+     *  \c batch    | \l CClient::HasBatch() (<a
+     * href="http://ircv3.net/specs/extensions/batch-3.2.html">batch</a>)
      *
-     *  @warning Bypassing the filter may cause troubles to some older IRC clients.
+     *  @warning Bypassing the filter may cause troubles to some older IRC
+     * clients.
      *
      *  It is possible to bypass the filter by converting a message to a string
      *  using \l CMessage::ToString(), and passing the resulting raw line to the

@@ -17,15 +17,15 @@
 #ifndef ZNC_H
 #define ZNC_H
 
-#include <znc/zncconfig.h>
 #include <znc/Client.h>
+#include <znc/Listener.h>
 #include <znc/Modules.h>
 #include <znc/Socket.h>
-#include <znc/Listener.h>
 #include <znc/Translation.h>
-#include <mutex>
-#include <map>
+#include <znc/zncconfig.h>
 #include <list>
+#include <map>
+#include <mutex>
 
 class CListener;
 class CUser;

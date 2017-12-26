@@ -16,8 +16,8 @@
 
 #include <znc/Config.h>
 #include <znc/FileUtils.h>
-#include <stack>
 #include <sstream>
+#include <stack>
 
 struct ConfigStackEntry {
     CString sTag;

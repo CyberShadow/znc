@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-#include <znc/Client.h>
 #include <znc/Chan.h>
+#include <znc/Client.h>
 #include <znc/FileUtils.h>
 #include <znc/IRCNetwork.h>
 #include <znc/IRCSock.h>
+#include <znc/Query.h>
 #include <znc/Server.h>
 #include <znc/User.h>
-#include <znc/Query.h>
 
-using std::vector;
-using std::set;
 using std::map;
+using std::set;
+using std::vector;
 
 void CClient::UserCommand(CString& sLine) {
     if (!m_pUser) {
@@ -519,10 +519,10 @@ void CClient::UserCommand(CString& sLine) {
         }
 
         PutStatus(Table);
-        PutStatus("Total: " + CString(vChans.size()) + " - Joined: " +
-                  CString(uNumJoined) + " - Detached: " +
-                  CString(uNumDetached) + " - Disabled: " +
-                  CString(uNumDisabled));
+        PutStatus("Total: " + CString(vChans.size()) +
+                  " - Joined: " + CString(uNumJoined) +
+                  " - Detached: " + CString(uNumDetached) +
+                  " - Disabled: " + CString(uNumDisabled));
     } else if (sCommand.Equals("ADDNETWORK")) {
         if (!m_pUser->IsAdmin() && !m_pUser->HasSpaceForNewNetwork()) {
             PutStatus(
@@ -792,7 +792,8 @@ void CClient::UserCommand(CString& sLine) {
                                           (pServer == pCurServ ? "*" : ""));
                 Table.SetCell("Port", CString(pServer->GetPort()));
                 Table.SetCell("SSL", (pServer->IsSSL()) ? "SSL" : "");
-                Table.SetCell("Pass", (!pServer->GetPass().empty()) ? "set" : "");
+                Table.SetCell("Pass",
+                              (!pServer->GetPass().empty()) ? "set" : "");
             }
 
             PutStatus(Table);
@@ -999,12 +1000,11 @@ void CClient::UserCommand(CString& sLine) {
             for (const CModInfo& Info : ssNetworkMods) {
                 Table.AddRow();
                 Table.SetCell(
-                    "Name",
-                    ((m_pNetwork &&
-                      m_pNetwork->GetModules().FindModule(Info.GetName()))
-                         ? "*"
-                         : " ") +
-                        Info.GetName());
+                    "Name", ((m_pNetwork && m_pNetwork->GetModules().FindModule(
+                                                Info.GetName()))
+                                 ? "*"
+                                 : " ") +
+                                Info.GetName());
                 Table.SetCell("Description",
                               Info.GetDescription().Ellipsize(128));
             }

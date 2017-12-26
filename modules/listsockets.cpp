@@ -59,8 +59,9 @@ class CListSockets : public CModule {
   public:
     MODCONSTRUCTOR(CListSockets) {
         AddHelpCommand();
-        AddCommand("List", t_d("[-n]"), t_d("Shows the list of active sockets. "
-                                            "Pass -n to show IP addresses"),
+        AddCommand("List", t_d("[-n]"),
+                   t_d("Shows the list of active sockets. "
+                       "Pass -n to show IP addresses"),
                    [=](const CString& sLine) { OnListCommand(sLine); });
     }
 
@@ -232,15 +233,12 @@ class CListSockets : public CModule {
             Table.SetCell(t_s("State"), GetSocketState(pSocket));
 
 #ifdef HAVE_LIBSSL
-            Table.SetCell(t_s("SSL"), pSocket->GetSSL()
-                                                   ? t_s("Yes", "ssl")
-                                                   : t_s("No", "ssl"));
+            Table.SetCell(t_s("SSL"), pSocket->GetSSL() ? t_s("Yes", "ssl")
+                                                        : t_s("No", "ssl"));
 #endif
 
-            Table.SetCell(t_s("Local"),
-                          GetLocalHost(pSocket, bShowHosts));
-            Table.SetCell(t_s("Remote"),
-                          GetRemoteHost(pSocket, bShowHosts));
+            Table.SetCell(t_s("Local"), GetLocalHost(pSocket, bShowHosts));
+            Table.SetCell(t_s("Remote"), GetRemoteHost(pSocket, bShowHosts));
             Table.SetCell(t_s("In"),
                           CString::ToByteStr(pSocket->GetBytesRead()));
             Table.SetCell(t_s("Out"),

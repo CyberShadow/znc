@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-#include <znc/znc.h>
 #include <signal.h>
 #include <time.h>
+#include <znc/znc.h>
 #include <thread>
 
 #if defined(HAVE_LIBSSL) && defined(HAVE_PTHREAD) && \
@@ -32,8 +32,8 @@
      with "no-op" compatibility macros."
 
    See openssl/openssl@2e52e7df518d80188c865ea3f7bb3526d14b0c08. */
-#include <znc/Threads.h>
 #include <openssl/crypto.h>
+#include <znc/Threads.h>
 #include <memory>
 
 static std::vector<std::unique_ptr<CMutex>> lock_cs;
@@ -462,8 +462,8 @@ int main(int argc, char** argv) {
 
     if (bForeground) {
         int iPid = getpid();
-        CUtils::PrintMessage("Staying open for debugging [pid: " +
-                             CString(iPid) + "]");
+        CUtils::PrintMessage(
+            "Staying open for debugging [pid: " + CString(iPid) + "]");
 
         pZNC->WritePidFile(iPid);
         CUtils::PrintMessage(CZNC::GetTag());
@@ -530,11 +530,13 @@ int main(int argc, char** argv) {
                 break;
             case CException::EX_Restart: {
                 // strdup() because GCC is stupid
-                char* args[] = {
-                    strdup(argv[0]),                    strdup("--datadir"),
-                    strdup(pZNC->GetZNCPath().c_str()), nullptr,
-                    nullptr,                            nullptr,
-                    nullptr};
+                char* args[] = {strdup(argv[0]),
+                                strdup("--datadir"),
+                                strdup(pZNC->GetZNCPath().c_str()),
+                                nullptr,
+                                nullptr,
+                                nullptr,
+                                nullptr};
                 int pos = 3;
                 if (CDebug::Debug())
                     args[pos++] = strdup("--debug");

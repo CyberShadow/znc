@@ -21,8 +21,8 @@
  * @brief SASL authentication module for znc.
  */
 
-#include <znc/znc.h>
 #include <znc/User.h>
+#include <znc/znc.h>
 
 #include <sasl/sasl.h>
 

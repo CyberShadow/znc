@@ -17,11 +17,14 @@
 #include <znc/SSLVerifyHost.h>
 
 #ifdef HAVE_LIBSSL
-#if defined(OPENSSL_VERSION_NUMBER) && !defined(LIBRESSL_VERSION_NUMBER) && OPENSSL_VERSION_NUMBER >= 0x10100007
-# define CONST_ASN1_STRING_DATA const /* 1.1.0-pre7: openssl/openssl@17ebf85abda18c3875b1ba6670fe7b393bc1f297 */
+#if defined(OPENSSL_VERSION_NUMBER) && !defined(LIBRESSL_VERSION_NUMBER) && \
+    OPENSSL_VERSION_NUMBER >= 0x10100007
+#define CONST_ASN1_STRING_DATA \
+    const /* 1.1.0-pre7:       \
+             openssl/openssl@17ebf85abda18c3875b1ba6670fe7b393bc1f297 */
 #else
-# define ASN1_STRING_get0_data( x ) ASN1_STRING_data( x )
-# define CONST_ASN1_STRING_DATA
+#define ASN1_STRING_get0_data(x) ASN1_STRING_data(x)
+#define CONST_ASN1_STRING_DATA
 #endif
 
 #include <openssl/x509v3.h>
@@ -116,14 +119,14 @@ inline char Curl_raw_toupper(char in) {
 }
 
 /*
-* Curl_raw_equal() is for doing "raw" case insensitive strings. This is meant
-* to be locale independent and only compare strings we know are safe for
-* this. See http://daniel.haxx.se/blog/2008/10/15/strcasecmp-in-turkish/ for
-* some further explanation to why this function is necessary.
-*
-* The function is capable of comparing a-z case insensitively even for
-* non-ascii.
-*/
+ * Curl_raw_equal() is for doing "raw" case insensitive strings. This is meant
+ * to be locale independent and only compare strings we know are safe for
+ * this. See http://daniel.haxx.se/blog/2008/10/15/strcasecmp-in-turkish/ for
+ * some further explanation to why this function is necessary.
+ *
+ * The function is capable of comparing a-z case insensitively even for
+ * non-ascii.
+ */
 static int Curl_raw_equal(const char* first, const char* second) {
     while (*first && *second) {
         if (Curl_raw_toupper(*first) != Curl_raw_toupper(*second))
@@ -175,7 +178,7 @@ static const int CURL_HOST_MATCH = 1;
  */
 
 static int hostmatch(char* hostname, char* pattern) {
-    const char* pattern_label_end, *pattern_wildcard, *hostname_label_end;
+    const char *pattern_label_end, *pattern_wildcard, *hostname_label_end;
     int wildcard_enabled;
     size_t prefixlen, suffixlen;
     struct in_addr ignored;
@@ -294,13 +297,13 @@ typedef enum {
 #define HOSTNAME_MAX_SIZE 255
 
 /**
-* Tries to find a match for hostname in the certificate's Common Name field.
-*
-* Returns MatchFound if a match was found.
-* Returns MatchNotFound if no matches were found.
-* Returns MalformedCertificate if the Common Name had a NUL character embedded in it.
-* Returns Error if the Common Name could not be extracted.
-*/
+ * Tries to find a match for hostname in the certificate's Common Name field.
+ *
+ * Returns MatchFound if a match was found.
+ * Returns MatchNotFound if no matches were found.
+ * Returns MalformedCertificate if the Common Name had a NUL character embedded
+ * in it. Returns Error if the Common Name could not be extracted.
+ */
 static HostnameValidationResult matches_common_name(const char* hostname,
                                                     const X509* server_cert) {
     int common_name_loc = -1;
@@ -346,13 +349,15 @@ static HostnameValidationResult matches_common_name(const char* hostname,
 }
 
 /**
-* Tries to find a match for hostname in the certificate's Subject Alternative Name extension.
-*
-* Returns MatchFound if a match was found.
-* Returns MatchNotFound if no matches were found.
-* Returns MalformedCertificate if any of the hostnames had a NUL character embedded in it.
-* Returns NoSANPresent if the SAN extension was not present in the certificate.
-*/
+ * Tries to find a match for hostname in the certificate's Subject Alternative
+ * Name extension.
+ *
+ * Returns MatchFound if a match was found.
+ * Returns MatchNotFound if no matches were found.
+ * Returns MalformedCertificate if any of the hostnames had a NUL character
+ * embedded in it. Returns NoSANPresent if the SAN extension was not present in
+ * the certificate.
+ */
 static HostnameValidationResult matches_subject_alternative_name(
     const char* hostname, const X509* server_cert) {
     HostnameValidationResult result = MatchNotFound;
@@ -398,16 +403,16 @@ static HostnameValidationResult matches_subject_alternative_name(
 }
 
 /**
-* Validates the server's identity by looking for the expected hostname in the
-* server's certificate. As described in RFC 6125, it first tries to find a match
-* in the Subject Alternative Name extension. If the extension is not present in
-* the certificate, it checks the Common Name instead.
-*
-* Returns MatchFound if a match was found.
-* Returns MatchNotFound if no matches were found.
-* Returns MalformedCertificate if any of the hostnames had a NUL character embedded in it.
-* Returns Error if there was an error.
-*/
+ * Validates the server's identity by looking for the expected hostname in the
+ * server's certificate. As described in RFC 6125, it first tries to find a
+ * match in the Subject Alternative Name extension. If the extension is not
+ * present in the certificate, it checks the Common Name instead.
+ *
+ * Returns MatchFound if a match was found.
+ * Returns MatchNotFound if no matches were found.
+ * Returns MalformedCertificate if any of the hostnames had a NUL character
+ * embedded in it. Returns Error if there was an error.
+ */
 static HostnameValidationResult validate_hostname(const char* hostname,
                                                   const X509* server_cert) {
     HostnameValidationResult result;

@@ -24,12 +24,12 @@
 #include <znc/User.h>
 #include <znc/znc.h>
 
-#include "modpython/swigpyrun.h"
 #include "modpython/module.h"
 #include "modpython/ret.h"
+#include "modpython/swigpyrun.h"
 
-using std::vector;
 using std::set;
+using std::vector;
 
 class CModPython : public CModule {
     PyObject* m_PyZNCModule;

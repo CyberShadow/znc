@@ -22,11 +22,11 @@
 #include <znc/User.h>
 #include <znc/znc.h>
 
+#include <EXTERN.h>
+#include <XSUB.h>
+#include <perl.h>
 #include "modperl/module.h"
 #include "modperl/swigperlrun.h"
-#include <EXTERN.h>
-#include <perl.h>
-#include <XSUB.h>
 
 #if defined(__APPLE__) && defined(__MACH__)
 #include <crt_externs.h>  // for _NSGetEnviron

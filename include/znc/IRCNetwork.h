@@ -17,11 +17,11 @@
 #ifndef ZNC_IRCNETWORK_H
 #define ZNC_IRCNETWORK_H
 
-#include <znc/zncconfig.h>
-#include <znc/ZNCString.h>
 #include <znc/Buffer.h>
 #include <znc/Nick.h>
+#include <znc/ZNCString.h>
 #include <znc/znc.h>
+#include <znc/zncconfig.h>
 
 class CModules;
 class CUser;

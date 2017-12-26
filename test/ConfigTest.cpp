@@ -15,8 +15,8 @@
  */
 
 #include <gtest/gtest.h>
-#include <znc/FileUtils.h>
 #include <znc/Config.h>
+#include <znc/FileUtils.h>
 
 class CConfigTest : public ::testing::Test {
   public:

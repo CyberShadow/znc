@@ -31,18 +31,18 @@ CMD5::CMD5(const char* szText, uint32 nTextLen) { MakeHash(szText, nTextLen); }
 
 CMD5::~CMD5() {}
 
-#define GET_UINT32(n, b, i)                                            \
-    {                                                                  \
-        (n) = ((uint32)(b)[(i)]) | ((uint32)(b)[(i)+1] << 8) |         \
-              ((uint32)(b)[(i)+2] << 16) | ((uint32)(b)[(i)+3] << 24); \
+#define GET_UINT32(n, b, i)                                                \
+    {                                                                      \
+        (n) = ((uint32)(b)[(i)]) | ((uint32)(b)[(i) + 1] << 8) |           \
+              ((uint32)(b)[(i) + 2] << 16) | ((uint32)(b)[(i) + 3] << 24); \
     }
 
-#define PUT_UINT32(n, b, i)              \
-    {                                    \
-        (b)[(i)] = (uint8)((n));         \
-        (b)[(i)+1] = (uint8)((n) >> 8);  \
-        (b)[(i)+2] = (uint8)((n) >> 16); \
-        (b)[(i)+3] = (uint8)((n) >> 24); \
+#define PUT_UINT32(n, b, i)                \
+    {                                      \
+        (b)[(i)] = (uint8)((n));           \
+        (b)[(i) + 1] = (uint8)((n) >> 8);  \
+        (b)[(i) + 2] = (uint8)((n) >> 16); \
+        (b)[(i) + 3] = (uint8)((n) >> 24); \
     }
 
 void CMD5::md5_starts(md5_context* ctx) const {

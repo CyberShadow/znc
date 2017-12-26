@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-#include <znc/User.h>
 #include <znc/IRCNetwork.h>
+#include <znc/User.h>
 
+using std::map;
 using std::set;
 using std::vector;
-using std::map;
 
 // If you change these and it breaks, you get to keep the pieces
 #define CHAN_PREFIX_1 "~"
@@ -274,10 +274,11 @@ class CPartylineMod : public CModule {
                 }
 
                 SendNickList(pUser, pNetwork, ssNicks, (*it)->GetName());
-                PutChan(ssNicks, ":*" + GetModName() + "!znc@znc.in MODE " +
-                                     (*it)->GetName() + " +" +
-                                     CString(pUser->IsAdmin() ? "o" : "v") +
-                                     " " + NICK_PREFIX + pUser->GetUserName(),
+                PutChan(ssNicks,
+                        ":*" + GetModName() + "!znc@znc.in MODE " +
+                            (*it)->GetName() + " +" +
+                            CString(pUser->IsAdmin() ? "o" : "v") + " " +
+                            NICK_PREFIX + pUser->GetUserName(),
                         false);
             }
         }
@@ -408,10 +409,11 @@ class CPartylineMod : public CModule {
                                    pClient->GetNick() + sMsg);
             }
 
-            PutChan(ssNicks, ":" + NICK_PREFIX + pUser->GetUserName() + "!" +
-                                 pUser->GetIdent() + "@" + sHost + sCmd +
-                                 pChannel->GetName() + " " + NICK_PREFIX +
-                                 pUser->GetUserName() + sMsg,
+            PutChan(ssNicks,
+                    ":" + NICK_PREFIX + pUser->GetUserName() + "!" +
+                        pUser->GetIdent() + "@" + sHost + sCmd +
+                        pChannel->GetName() + " " + NICK_PREFIX +
+                        pUser->GetUserName() + sMsg,
                     false, true, pUser);
         } else {
             for (vector<CClient*>::const_iterator it = vClients.begin();
@@ -422,9 +424,10 @@ class CPartylineMod : public CModule {
                                    pChannel->GetName() + sMsg);
             }
 
-            PutChan(ssNicks, ":" + NICK_PREFIX + pUser->GetUserName() + "!" +
-                                 pUser->GetIdent() + "@" + sHost + sCmd +
-                                 pChannel->GetName() + sMsg,
+            PutChan(ssNicks,
+                    ":" + NICK_PREFIX + pUser->GetUserName() + "!" +
+                        pUser->GetIdent() + "@" + sHost + sCmd +
+                        pChannel->GetName() + sMsg,
                     false, true, pUser);
         }
 
@@ -503,15 +506,17 @@ class CPartylineMod : public CModule {
              * clients already know from NAMES list */
 
             if (pUser->IsAdmin()) {
-                PutChan(ssNicks, ":*" + GetModName() + "!znc@znc.in MODE " +
-                                     pChannel->GetName() + " +o " +
-                                     NICK_PREFIX + pUser->GetUserName(),
+                PutChan(ssNicks,
+                        ":*" + GetModName() + "!znc@znc.in MODE " +
+                            pChannel->GetName() + " +o " + NICK_PREFIX +
+                            pUser->GetUserName(),
                         false, false, pUser);
             }
 
-            PutChan(ssNicks, ":*" + GetModName() + "!znc@znc.in MODE " +
-                                 pChannel->GetName() + " +v " + NICK_PREFIX +
-                                 pUser->GetUserName(),
+            PutChan(ssNicks,
+                    ":*" + GetModName() + "!znc@znc.in MODE " +
+                        pChannel->GetName() + " +v " + NICK_PREFIX +
+                        pUser->GetUserName(),
                     false, false, pUser);
         }
     }
@@ -545,9 +550,10 @@ class CPartylineMod : public CModule {
                 return HALT;
             }
 
-            PutChan(sTarget, ":" + NICK_PREFIX + pUser->GetUserName() + "!" +
-                                 pUser->GetIdent() + "@" + sHost + " " + sCmd +
-                                 " " + sTarget + " :" + sMessage,
+            PutChan(sTarget,
+                    ":" + NICK_PREFIX + pUser->GetUserName() + "!" +
+                        pUser->GetIdent() + "@" + sHost + " " + sCmd + " " +
+                        sTarget + " :" + sMessage,
                     true, false);
         } else {
             CString sNick = sTarget.LeftChomp_n(1);

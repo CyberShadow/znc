@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include <znc/Client.h>
 #include <znc/Chan.h>
+#include <znc/Client.h>
 #include <znc/Modules.h>
 
 using std::vector;
@@ -285,7 +285,7 @@ class CSampleMod : public CModule {
 
         return CONTINUE;
     }
-    
+
     // Bolds an incoming message.
     EModRet OnPrivMsg(CNick& Nick, CString& sMessage) override {
         PutModule("[" + Nick.GetNick() + "] privmsg [" + sMessage + "]");

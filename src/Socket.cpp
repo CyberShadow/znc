@@ -16,12 +16,12 @@
 
 #include <random>
 
-#include <znc/Socket.h>
-#include <znc/User.h>
+#include <signal.h>
 #include <znc/IRCNetwork.h>
 #include <znc/SSLVerifyHost.h>
+#include <znc/Socket.h>
+#include <znc/User.h>
 #include <znc/znc.h>
-#include <signal.h>
 
 #ifdef HAVE_ICU
 #include <unicode/ucnv_cb.h>
@@ -582,7 +582,7 @@ bool CSocket::Listen(unsigned short uPort, bool bSSL, unsigned int uTimeout) {
 }
 
 CModule* CSocket::GetModule() const { return m_pModule; }
-/////////////////// !CSocket ///////////////////
+    /////////////////// !CSocket ///////////////////
 
 #ifdef HAVE_ICU
 void CIRCSocket::IcuExtToUCallback(UConverterToUnicodeArgs* toArgs,
@@ -635,7 +635,6 @@ void CIRCSocket::IcuExtFromUCallback(UConverterFromUnicodeArgs* fromArgs,
                                err);
 }
 #endif
-
 
 CString CSocket::t_s(const CString& sEnglish, const CString& sContext) const {
     return GetModule()->t_s(sEnglish, sContext);

@@ -52,8 +52,9 @@ class CBuffExtras : public CModule {
         const CString sKickedNick = Message.GetKickedNick();
         CChan& Channel = *Message.GetChan();
         const CString sMessage = Message.GetReason();
-        AddBuffer(Channel, t_f("{1} kicked {2} with reason: {3}")(
-                               OpNick.GetNickMask(), sKickedNick, sMessage),
+        AddBuffer(Channel,
+                  t_f("{1} kicked {2} with reason: {3}")(OpNick.GetNickMask(),
+                                                         sKickedNick, sMessage),
                   &Message.GetTime(), Message.GetTags());
     }
 
@@ -97,9 +98,10 @@ class CBuffExtras : public CModule {
         const CNick& Nick = Message.GetNick();
         CChan& Channel = *Message.GetChan();
         const CString sTopic = Message.GetTopic();
-        AddBuffer(Channel, t_f("{1} changed the topic to: {2}")(
-                               Nick.GetNickMask(), sTopic),
-                  &Message.GetTime(), Message.GetTags());
+        AddBuffer(
+            Channel,
+            t_f("{1} changed the topic to: {2}")(Nick.GetNickMask(), sTopic),
+            &Message.GetTime(), Message.GetTags());
 
         return CONTINUE;
     }
