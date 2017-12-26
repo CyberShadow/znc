@@ -49,6 +49,7 @@ class CWatchEntry {
         m_bDisabled = false;
         m_bDetachedClientOnly = false;
         m_bDetachedChannelOnly = false;
+        m_iNickLimit = -1;
         m_sPattern = (sPattern.size()) ? sPattern : "*";
 
         CNick Nick;
@@ -114,6 +115,7 @@ class CWatchEntry {
     bool IsDisabled() const { return m_bDisabled; }
     bool IsDetachedClientOnly() const { return m_bDetachedClientOnly; }
     bool IsDetachedChannelOnly() const { return m_bDetachedChannelOnly; }
+    int GetNickLimit() const { return m_iNickLimit; }
     const vector<CWatchSource>& GetSources() const { return m_vsSources; }
     CString GetSourcesStr() const {
         CString sRet;
@@ -143,6 +145,7 @@ class CWatchEntry {
     void SetDisabled(bool b = true) { m_bDisabled = b; }
     void SetDetachedClientOnly(bool b = true) { m_bDetachedClientOnly = b; }
     void SetDetachedChannelOnly(bool b = true) { m_bDetachedChannelOnly = b; }
+    void SetNickLimit(int i) { m_iNickLimit = i; }
     void SetSources(const CString& sSources) {
         VCString vsSources;
         VCString::iterator it;
@@ -167,6 +170,7 @@ class CWatchEntry {
     bool m_bDisabled;
     bool m_bDetachedClientOnly;
     bool m_bDetachedChannelOnly;
+    int m_iNickLimit;
     vector<CWatchSource> m_vsSources;
 };
 
@@ -344,6 +348,8 @@ class CWatcherMod : public CModule {
                 t_f("Buffer count is set to {1}")(m_Buffer.GetLineCount()));
         } else if (sCmdName.Equals("DEL")) {
             Remove(sCommand.Token(1).ToUInt());
+        } else if (sCmdName.Equals("SETNICKLIMIT")) {
+            SetNickLimit(sCommand.Token(1).ToUInt(), sCommand.Token(2).ToInt());
         } else {
             PutModule(t_f("Unknown command: {1}")(sCmdName));
         }
@@ -368,6 +374,18 @@ class CWatcherMod : public CModule {
             if (pChannel && !pChannel->IsDetached() &&
                 WatchEntry.IsDetachedChannelOnly()) {
                 continue;
+            }
+
+            if (pChannel && WatchEntry.GetNickLimit() >= 0) {
+                int iNickMatches = 0;
+                for (const auto& it : pChannel->GetNicks()) {
+                    if (sMessage.Contains(it.first, CString::CaseInsensitive)) {
+                        iNickMatches++;
+                    }
+                }
+
+                if (iNickMatches >= WatchEntry.GetNickLimit())
+                    continue;
             }
 
             if (WatchEntry.IsMatch(Nick, sMessage, sSource, pNetwork) &&
@@ -482,6 +500,38 @@ class CWatcherMod : public CModule {
         Save();
     }
 
+    void SetNickLimit(unsigned int uIdx, int iNickLimit) {
+        if (uIdx == (unsigned int)~0) {
+            for (list<CWatchEntry>::iterator it = m_lsWatchers.begin();
+                 it != m_lsWatchers.end(); ++it) {
+                (*it).SetNickLimit(iNickLimit);
+            }
+
+            if (iNickLimit < 0)
+                PutModule(t_s("Set NickLimit for all entries to None"));
+            else
+                PutModule(t_f("Set NickLimit for all entries to {1}")(iNickLimit));
+            Save();
+            return;
+        }
+
+        uIdx--;  // "convert" index to zero based
+        if (uIdx >= m_lsWatchers.size()) {
+            PutModule(t_s("Invalid Id"));
+            return;
+        }
+
+        list<CWatchEntry>::iterator it = m_lsWatchers.begin();
+        for (unsigned int a = 0; a < uIdx; a++) ++it;
+
+        (*it).SetNickLimit(iNickLimit);
+        if (iNickLimit < 0)
+            PutModule(t_f("Id {1} set to None")(uIdx + 1));
+        else
+            PutModule(t_f("Id {1} set to {2}")(uIdx + 1, iNickLimit));
+        Save();
+    }
+
     void List() {
         CTable Table;
         Table.AddColumn(t_s("Id"));
@@ -492,6 +542,7 @@ class CWatcherMod : public CModule {
         Table.AddColumn(t_s("Off"));
         Table.AddColumn(t_s("DetachedClientOnly"));
         Table.AddColumn(t_s("DetachedChannelOnly"));
+        Table.AddColumn(t_s("NickLimit"));
 
         unsigned int uIdx = 1;
 
@@ -513,6 +564,11 @@ class CWatcherMod : public CModule {
             Table.SetCell(
                 t_s("DetachedChannelOnly"),
                 WatchEntry.IsDetachedChannelOnly() ? t_s("Yes") : t_s("No"));
+            Table.SetCell(
+                t_s("NickLimit"),
+                WatchEntry.GetNickLimit() < 0
+                    ? t_s("None")
+                    : CString(WatchEntry.GetNickLimit()));
         }
 
         if (Table.size()) {
@@ -558,6 +614,11 @@ class CWatcherMod : public CModule {
             if (WatchEntry.IsDetachedChannelOnly()) {
                 PutModule("/msg " + GetModNick() + " SETDETACHEDCHANNELONLY " +
                           CString(uIdx) + " TRUE");
+            }
+
+            if (WatchEntry.GetNickLimit() >= 0) {
+                PutModule("/msg " + GetModNick() + " SETNICKLIMIT  " +
+                          CString(uIdx) + " " + CString(WatchEntry.GetNickLimit()));
             }
         }
 
@@ -661,6 +722,12 @@ class CWatcherMod : public CModule {
                       t_s("Set the source channels that you care about."));
 
         Table.AddRow();
+        Table.SetCell(t_s("Command"),
+                      t_s("SetNickLimit <Id> <Limit>"));
+        Table.SetCell(t_s("Description"),
+                      t_s("Set limit of channel nicknames per line."));
+
+        Table.AddRow();
         Table.SetCell(t_s("Command"), t_s("Help"));
         Table.SetCell(t_s("Description"), t_s("This help."));
 
@@ -720,6 +787,7 @@ class CWatcherMod : public CModule {
             // Without this, loading fails if GetSourcesStr()
             // returns an empty string
             sSave += " ";
+            sSave += CString(WatchEntry.GetNickLimit()) + "\n";
 
             SetNV(sSave, "", false);
         }
@@ -738,7 +806,7 @@ class CWatcherMod : public CModule {
             it->first.Split("\n", vList);
 
             // Backwards compatibility with the old save format
-            if (vList.size() != 5 && vList.size() != 7) {
+            if (vList.size() != 5 && vList.size() != 7 && vList.size() != 8) {
                 bWarn = true;
                 continue;
             }
@@ -756,6 +824,9 @@ class CWatcherMod : public CModule {
                 WatchEntry.SetDetachedClientOnly(vList[4].ToBool());
                 WatchEntry.SetDetachedChannelOnly(vList[5].ToBool());
                 WatchEntry.SetSources(vList[6]);
+            }
+            if (vList.size() == 8) {
+                WatchEntry.SetNickLimit(vList[7].ToInt());
             }
             m_lsWatchers.push_back(WatchEntry);
         }
